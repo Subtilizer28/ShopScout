@@ -35,7 +35,7 @@ export default [
       ],
     },
     "env": {
-      "node": true
-    } 
+      "node": true,
+    },
   },
 ]
