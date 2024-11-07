@@ -3,9 +3,7 @@ import axios from 'axios';
 import { TextField, Button, CircularProgress, Box, Typography} from '@mui/material';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip } from 'chart.js';
-import dotenv from 'dotenv'
 
-dotenv.config();
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip);
 
 function PriceHistory() {
@@ -50,7 +48,7 @@ function PriceHistory() {
         setSubmitted(true);
         setLoading(true);
         try {
-            const response = await axios.post(`${process.env.BACKEND}/api/phistory`, { inputValue });
+            const response = await axios.post(`${import.meta.env.BACKEND}/api/phistory`, { inputValue });
             console.log(response)
             const { dates, prices, title, image, currentprice } = response.data;
             console.log(image);

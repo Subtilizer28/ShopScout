@@ -74,7 +74,7 @@ function Suggest() {
     setLoading(true);
     if(deviceType === 'Phone') {
       try {
-        const response = await axios.post(`${process.env.BACKEND}/api/psuggest`, phoneFormData);
+        const response = await axios.post(`${import.meta.env.BACKEND}/api/psuggest`, phoneFormData);
         if(response.data==="noproducts"){
           setSubmitted(false)
           setError("No products found. Try adjusting your filters.")
@@ -97,7 +97,7 @@ function Suggest() {
     }
     else if(deviceType === 'Laptop') {
       try {
-        const response = await axios.post(`${process.env.BACKEND}/api/lsuggest`, laptopFormData);
+        const response = await axios.post(`${import.meta.env.BACKEND}/api/lsuggest`, laptopFormData);
         if(response.data==="noproducts"){
           setSubmitted(false)
           setError("No products found. Try adjusting your filters.")
