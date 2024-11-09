@@ -90,7 +90,7 @@ app.post('/api/phistory', async (req, res) => {
         
                 // Extract price
                 const priceElement = document.evaluate(
-                    "/html/body/div[2]/div[1]/div/div[2]/div[1]/div[1]/div[2]/div/div/div[2]/div/div/table/tbody/tr[1]/td[2]/ul/li/div/span[1]",
+                    "/html/body/div[2]/div[1]/div/div[2]/div[1]/div[1]/div[2]/div/div/div[2]/div/div/table/tbody/tr[1]/td[2]/ul/li/div/span[1]/text()",
                     document,
                     null,
                     XPathResult.FIRST_ORDERED_NODE_TYPE,
