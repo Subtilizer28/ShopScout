@@ -69,6 +69,7 @@ function Suggest() {
     }
   };
   const handleSubmit = async (e) => {
+    console.log(process.env.BACKEND)
     e.preventDefault();
     setSubmitted(true);
     setLoading(true);
