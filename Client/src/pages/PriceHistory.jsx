@@ -59,18 +59,27 @@ function PriceHistory() {
             const filteredPrices = [];
             let previousPrice = null;
 
-            dates.forEach((date, index) => {
-                const price = prices[index];
-                if (previousPrice === null || Math.abs(price - previousPrice) > 1) { // Threshold can be adjusted
-                    filteredDates.push(date);
-                    filteredPrices.push(price);
-                    previousPrice = price;
-                }
-            });
-            const max = Math.max(...filteredPrices);
-            const min = Math.min(...filteredPrices);
-            setMaxPrice(max);
-            setMinPrice(min);
+            if(dates === null || prices === null) {
+                const max = "NA";
+                const min = "NA";
+                setMaxPrice(max);
+                setMinPrice(min);
+                filteredDates = "NA";
+                filteredPrices = "NA";
+            } else {
+                dates.forEach((date, index) => {
+                    const price = prices[index];
+                    if (previousPrice === null || Math.abs(price - previousPrice) > 1) { // Threshold can be adjusted
+                        filteredDates.push(date);
+                        filteredPrices.push(price);
+                        previousPrice = price;
+                    }
+                });
+                const max = Math.max(...filteredPrices);
+                const min = Math.min(...filteredPrices);
+                setMaxPrice(max);
+                setMinPrice(min);    
+            }
 
             setChartData({
                 labels: filteredDates,
