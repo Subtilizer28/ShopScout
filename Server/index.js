@@ -102,6 +102,7 @@ app.post('/api/phistory', async (req, res) => {
                 return null;
             }
         });
+        console.log(data)
         if (!data) {
             res.status(500).json({ error: "Failed to extract data from the page" });
             return;
