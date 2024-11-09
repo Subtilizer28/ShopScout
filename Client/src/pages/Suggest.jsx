@@ -120,7 +120,6 @@ function Suggest() {
     }
   };
   const handlePriceChange = (event, newValue) => {
-    console.log(import.meta.env.VITE_BACKEND)
     setPriceRange(newValue); 
     const [min,max] = newValue;
     if(deviceType === 'Phone') {
