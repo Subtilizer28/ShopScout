@@ -12,6 +12,7 @@ function PriceHistory() {
     const [loading, setLoading] = useState(false);
     const [minPrice, setMinPrice] = useState(null);
     const [error, setError] = useState('');
+    const [dataError, setDataError] = useState('');
     const [maxPrice, setMaxPrice] = useState(null);
     const [title, setTitle] = useState(null);
     const [prodimage, setProdImage] = useState(null);
@@ -60,6 +61,7 @@ function PriceHistory() {
             let previousPrice = null;
 
             if(dates === null || prices === null) {
+                setDataError('Please enter a valid link from Flipkart or Amazon.');
                 const max = "NA";
                 const min = "NA";
                 setMaxPrice(max);
@@ -106,6 +108,11 @@ function PriceHistory() {
                     </Box>
                 ) : (
                     <div>
+                        {dataError && (
+                            <Typography variant="body2" sx={{ color: 'red', marginBottom: '10px' }}>
+                                {dataError}
+                            </Typography>
+                        )}
                         <Box sx={{
                             background: 'transparent',
                             width: 'cover',
