@@ -51,7 +51,6 @@ function PriceHistory() {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND}/api/phistory`, { inputValue });
             console.log(response)
             const { dates, prices, title, image, currentprice } = response.data;
-            console.log(image);
             setTitle(title)
             setProdImage(image)
             setCurPrice(currentprice)
