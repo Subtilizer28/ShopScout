@@ -69,7 +69,6 @@ function Suggest() {
     }
   };
   const handleSubmit = async (e) => {
-    console.log(process.env.BACKEND)
     e.preventDefault();
     setSubmitted(true);
     setLoading(true);
@@ -121,6 +120,7 @@ function Suggest() {
     }
   };
   const handlePriceChange = (event, newValue) => {
+    console.log(process.env.BACKEND)
     setPriceRange(newValue); 
     const [min,max] = newValue;
     if(deviceType === 'Phone') {
