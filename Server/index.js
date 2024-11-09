@@ -40,9 +40,11 @@ const handleRedirects = async (url) => {
 app.post('/api/test', (req,res) => {
     res.send("Test Successfull")
 })
+
 app.post('/api/phistory', async (req, res) => {
-    var { inputValue } = req.body;
-    console.log(inputValue)
+    let { inputValue } = req.body;
+    console.log(inputValue);
+
     if (inputValue.startsWith('https://dl.flipkart.com/')) {
         try {
             inputValue = await handleRedirects(inputValue);
@@ -51,65 +53,61 @@ app.post('/api/phistory', async (req, res) => {
             return res.status(500).json({ error: "Redirect error for Flipkart URL" });
         }
     }
-    // Launch puppeteer
+
     let browser;
     try {
         browser = await puppeteer.launch({ 
             executablePath: '/usr/bin/chromium-browser',
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
-         });
+        });
         const page = await browser.newPage();
 
-        // Navigate to the URL
         await page.goto(`https://pricebefore.com/search/?category=all&q=${inputValue}`, { 
             waitUntil: 'networkidle0',
             timeout: 60000
         });
-        // Extract data
+
         const data = await page.evaluate(() => {
             try {
-                // Wait for specific elements or scripts
+                // Poll for elements with optional null values
                 const titleElement = document.evaluate("/html/body/div[2]/div/div[1]/div/div[5]/div/h1", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                const titleText = titleElement ? titleElement.textContent : 'Title not found';
+                const titleText = titleElement ? titleElement.textContent : null;
+
                 const img = document.querySelector("body > div.cgd-page.mm-page.mm-slideout > div > div:nth-child(2) > div.cgd-col.cgd-24u.cmo-primary > div.cmo-mod.cmo-product > div.bd > div > div > div:nth-child(1) > div > div.bd > div > img");
-                const src = img ? img.getAttribute('src') : 'Image not found';
+                const src = img ? img.getAttribute('src') : null;
+
                 const priceElement = document.evaluate("/html/body/div[2]/div/div[1]/div/div[6]/div/div/div[1]/div[2]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                const curprice = priceElement ? priceElement.textContent : 'Price not found';
-                
-                // Extract JSON data from the script tag
+                const curprice = priceElement ? priceElement.textContent : null;
+
+                // Extract JSON data from script
                 const scriptContent = document.evaluate('/html/body/script[9]/text()', document, null, XPathResult.STRING_TYPE, null).stringValue;
-                const jsonData = JSON.parse(scriptContent.match(/var\s+data\s*=\s*(.*);/)[1]);
-                if(jsonData.dates == null || jsonData.prices == null) {
-                    return {
-                        dates: null,
-                        prices: null,
-                        title: titleText,
-                        image: src,
-                        currentprice: curprice,
-                    };
+                let jsonData;
+                try {
+                    jsonData = JSON.parse(scriptContent.match(/var\s+data\s*=\s*(.*);/)[1]);
+                } catch (parseError) {
+                    console.error("JSON parsing error:", parseError);
+                    jsonData = { dates: null, prices: null };
                 }
-                else {
-                    return {
-                        dates: jsonData.dates,
-                        prices: jsonData.prices,
-                        title: titleText,
-                        image: src,
-                        currentprice: curprice,
-                    };
-                }
+
+                return {
+                    dates: jsonData.dates || null,
+                    prices: jsonData.prices || null,
+                    title: titleText,
+                    image: src,
+                    currentprice: curprice,
+                };
             } catch (error) {
                 console.error("Error extracting data in page.evaluate:", error);
                 return null;
             }
         });
-        console.log(data)
+
+        console.log(data);
         if (!data) {
-            res.status(500).json({ error: "Failed to extract data from the page" });
-            return;
+            return res.status(500).json({ error: "Failed to extract data from the page" });
         }
 
-        // Send the extracted data as a response
         res.json(data);
 
     } catch (error) {
