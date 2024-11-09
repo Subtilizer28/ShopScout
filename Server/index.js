@@ -78,7 +78,6 @@ app.post('/api/phistory', async (req, res) => {
                 
                 // Extract JSON data from the script tag
                 const scriptContent = document.evaluate('/html/body/script[9]/text()', document, null, XPathResult.STRING_TYPE, null).stringValue;
-                console.error(scriptContent)
                 const jsonData = JSON.parse(scriptContent.match(/var\s+data\s*=\s*(.*);/)[1]);
                 if(jsonData.dates == null || jsonData.prices == null) {
                     return {
