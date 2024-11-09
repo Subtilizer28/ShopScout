@@ -61,7 +61,7 @@ function PriceHistory() {
             let previousPrice = null;
 
             if(dates === null || prices === null) {
-                setDataError('Please enter a valid link from Flipkart or Amazon.');
+                setDataError('Some data not available. The product is new or we do not have enough data to show.');
                 const max = "NA";
                 const min = "NA";
                 setMaxPrice(max);
@@ -109,7 +109,7 @@ function PriceHistory() {
                 ) : (
                     <div>
                         {dataError && (
-                            <Typography variant="body2" sx={{ color: 'red', marginBottom: '4px', marginTop: '3px' }}>
+                            <Typography variant="body2" sx={{ color: 'red', marginBottom: 2, marginTop: 1 }}>
                                 {dataError}
                             </Typography>
                         )}
