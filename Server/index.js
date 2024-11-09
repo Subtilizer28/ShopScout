@@ -70,34 +70,52 @@ app.post('/api/phistory', async (req, res) => {
 
         const data = await page.evaluate(() => {
             try {
-                // Poll for elements with optional null values
-                const titleElement = document.evaluate("/html/body/div[2]/div/div[1]/div/div[5]/div/h1", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                // Extract title
+                const titleElement = document.evaluate(
+                    "/html/body/div[2]/div/div[1]/div/div[5]/div/h1",
+                    document,
+                    null,
+                    XPathResult.FIRST_ORDERED_NODE_TYPE,
+                    null
+                ).singleNodeValue;
                 const titleText = titleElement ? titleElement.textContent : null;
-
-                const img = document.querySelector("body > div.cgd-page.mm-page.mm-slideout > div > div:nth-child(2) > div.cgd-col.cgd-24u.cmo-primary > div.cmo-mod.cmo-product > div.bd > div > div > div:nth-child(1) > div > div.bd > div > img");
-                const src = img ? img.getAttribute('src') : null;
-
-                const priceElement = document.evaluate("/html/body/div[2]/div/div[1]/div/div[6]/div/div/div[1]/div[2]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                console.log("Title:", titleText);
+        
+                // Extract image source
+                const img = document.querySelector(
+                    "body > div.cgd-page.mm-page.mm-slideout > div > div:nth-child(2) > div.cgd-col.cgd-24u.cmo-primary > div.cmo-mod.cmo-product > div.bd > div > div > div:nth-child(1) > div > div.bd > div > img"
+                );
+                const src = img ? img.getAttribute("src") : null;
+                console.log("Image Source:", src);
+        
+                // Extract price
+                const priceElement = document.evaluate(
+                    "/html/body/div[2]/div/div[1]/div/div[6]/div/div/div[1]/div[2]",
+                    document,
+                    null,
+                    XPathResult.FIRST_ORDERED_NODE_TYPE,
+                    null
+                ).singleNodeValue;
                 const curprice = priceElement ? priceElement.textContent : null;
-
-                // Extract JSON data from script
-                let jsonData;
-                const scripts = document.querySelectorAll('script');
-                try {
-                    for (let script of scripts) {
-                        if (script.textContent.includes('var data =')) {
-                            try {
-                                jsonData = JSON.parse(script.textContent.match(/var\s+data\s*=\s*(.*);/)[1]);
-                                break;
-                            } catch (error) {
-                                console.warn("Error parsing JSON data:", error);
-                            }
+                console.log("Current Price:", curprice);
+        
+                // Find and parse JSON data
+                let jsonData = { dates: null, prices: null };
+                const scripts = document.querySelectorAll("script");
+                for (let script of scripts) {
+                    if (script.textContent.includes("var data =")) {
+                        try {
+                            const jsonString = script.textContent.match(/var\s+data\s*=\s*(.*);/)[1];
+                            jsonData = JSON.parse(jsonString);
+                            console.log("JSON Data:", jsonData);
+                            break;
+                        } catch (error) {
+                            console.warn("Error parsing JSON data:", error);
                         }
                     }
-                } catch (parseError) {
-                    console.error("JSON parsing error:", parseError);
-                    jsonData = { dates: null, prices: null };
                 }
+        
+                // Return structured data, including null for missing elements
                 return {
                     dates: jsonData.dates || null,
                     prices: jsonData.prices || null,
