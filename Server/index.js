@@ -81,15 +81,23 @@ app.post('/api/phistory', async (req, res) => {
                 const curprice = priceElement ? priceElement.textContent : null;
 
                 // Extract JSON data from script
-                const scriptContent = document.evaluate('/html/body/script[9]/text()', document, null, XPathResult.STRING_TYPE, null).stringValue;
                 let jsonData;
+                const scripts = document.querySelectorAll('script');
                 try {
-                    jsonData = JSON.parse(scriptContent.match(/var\s+data\s*=\s*(.*);/)[1]);
+                    for (let script of scripts) {
+                        if (script.textContent.includes('var data =')) {
+                            try {
+                                jsonData = JSON.parse(script.textContent.match(/var\s+data\s*=\s*(.*);/)[1]);
+                                break;
+                            } catch (error) {
+                                console.warn("Error parsing JSON data:", error);
+                            }
+                        }
+                    }
                 } catch (parseError) {
                     console.error("JSON parsing error:", parseError);
                     jsonData = { dates: null, prices: null };
                 }
-
                 return {
                     dates: jsonData.dates || null,
                     prices: jsonData.prices || null,
