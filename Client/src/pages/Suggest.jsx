@@ -74,7 +74,7 @@ function Suggest() {
     setLoading(true);
     if(deviceType === 'Phone') {
       try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/psuggest`, phoneFormData);
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND}/api/psuggest`, phoneFormData);
         if(response.data==="noproducts"){
           setSubmitted(false)
           setError("No products found. Try adjusting your filters.")
@@ -97,7 +97,7 @@ function Suggest() {
     }
     else if(deviceType === 'Laptop') {
       try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/lsuggest`, laptopFormData);
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND}/api/lsuggest`, laptopFormData);
         if(response.data==="noproducts"){
           setSubmitted(false)
           setError("No products found. Try adjusting your filters.")
@@ -120,7 +120,7 @@ function Suggest() {
     }
   };
   const handlePriceChange = (event, newValue) => {
-    console.log(process.env.NEXT_PUBLIC_BACKEND)
+    console.log(import.meta.env.VITE_BACKEND)
     setPriceRange(newValue); 
     const [min,max] = newValue;
     if(deviceType === 'Phone') {
