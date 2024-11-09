@@ -64,6 +64,7 @@ app.post('/api/phistory', async (req, res) => {
         // Navigate to the URL
         await page.goto(`https://pricebefore.com/search/?category=all&q=${inputValue}`, { 
             waitUntil: 'networkidle0',
+            timeout: 60000
         });
         // Extract data
         const data = await page.evaluate(() => {
