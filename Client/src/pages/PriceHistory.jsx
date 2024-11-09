@@ -109,7 +109,7 @@ function PriceHistory() {
                 ) : (
                     <div>
                         {dataError && (
-                            <Typography variant="body2" sx={{ color: 'red', marginBottom: '10px' }}>
+                            <Typography variant="body2" sx={{ color: 'red', marginBottom: '4px', marginTop: '3px' }}>
                                 {dataError}
                             </Typography>
                         )}
