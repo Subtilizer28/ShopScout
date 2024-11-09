@@ -120,7 +120,7 @@ function Suggest() {
     }
   };
   const handlePriceChange = (event, newValue) => {
-    console.log(process.env.BACKEND)
+    console.log(process.env.NEXT_PUBLIC_BACKEND)
     setPriceRange(newValue); 
     const [min,max] = newValue;
     if(deviceType === 'Phone') {
