@@ -138,6 +138,79 @@ app.post('/api/phistory', async (req, res) => {
     }
 });
 
+app.post('/api/compare', async (req, res) => {
+    const { link1, link2 } = req.body;
+    let browser;
+
+    try {
+        // Launch Puppeteer with minimal permissions for security
+        browser = await puppeteer.launch({ 
+            headless: true, 
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
+
+        // Open pages concurrently and set user agents
+        const [page1, page2] = await Promise.all([browser.newPage(), browser.newPage()]);
+        const userAgent = randomUseragent.getRandom();
+        await Promise.all([page1.setUserAgent(userAgent), page2.setUserAgent(userAgent)]);
+
+        // Navigate to product URLs and wait for page load
+        await Promise.all([
+            page1.goto(link1, { waitUntil: 'networkidle0' }),
+            page2.goto(link2, { waitUntil: 'networkidle0' })
+        ]);
+
+        // Remove unnecessary tags and retrieve cleaned HTML content
+        await Promise.all([
+            page1.evaluate(() => document.querySelectorAll('script, style, meta, link').forEach(tag => tag.remove())),
+            page2.evaluate(() => document.querySelectorAll('script, style, meta, link').forEach(tag => tag.remove()))
+        ]);
+        const [cleanedHtml1, cleanedHtml2] = await Promise.all([page1.content(), page2.content()]);
+
+        // Prompt for generalized product comparison
+        const description = `
+            Compare two mobile phones based on their specifications to verify similarity. 
+            Return the information as an array format, where each item is an array containing three elements: 
+            the feature name, Product 1 specification, and Product 2 specification. 
+            Do not create new lines or include 'json'. 
+            Only return the main array and the array items inside it. 
+            Include the product name as the first row and 'Color' as a feature. 
+            For any missing specifications (e.g., RAM, battery), use 'NA.' 
+            Always try to get same features for both features. Avoid NA always. only use if required
+            Do not include extra content or recommendations. 
+            Include a minimum of 10 features. If the products are not similar, return 'notsimilar.'
+        `;
+        const comparisonPrompt = `
+           Extract the relevant information from the following content: 
+            Product 1: ${cleanedHtml1} 
+            Product 2: ${cleanedHtml2}. 
+            Only include data that directly matches the provided description: ${description}.
+            If the products are not similar, respond with "notsimilar."
+        `;
+
+        // Assuming model.generateContent is an API for AI processing of the HTML content
+        const comparisonResult = await model.generateContent([comparisonPrompt]);
+
+        // Check for result validity
+        const resultText = comparisonResult.response.text().trim();
+        console.log(resultText)
+        if (resultText === "notsimilar") return res.status(400).json({ error: "notsimilar" });
+        if (!resultText || resultText === '[null]') return res.status(400).json({ error: "data not found" });
+
+        // Return parsed comparison result
+        const data = JSON.parse(resultText);
+        console.log(data)
+        res.json({ comparisonResult: data });
+
+    } catch (error) {
+        console.error("Error during processing:", error);
+        res.status(500).json({ error: "An error occurred while processing the request" });
+    } finally {
+        if (browser) await browser.close();
+    }
+});
+
+
 app.post('/api/psuggest', async (req, res) => {
     var phoneFormData = req.body;
     const { brand, minPrice, maxPrice, selectedRams, selectedStorage, selectedBattery, selectedScreen, selectedClock } = phoneFormData
