@@ -56,8 +56,8 @@ function PriceHistory() {
             setProdImage(image)
             setCurPrice(currentprice)
             // Filtering logic: only keep values with noticeable changes
-            const filteredDates = [];
-            const filteredPrices = [];
+            var filteredDates = [];
+            var filteredPrices = [];
             let previousPrice = null;
 
             if(dates === null || prices === null) {
