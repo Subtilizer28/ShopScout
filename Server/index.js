@@ -189,9 +189,8 @@ app.post('/api/compare', async (req, res) => {
             the feature name, Product 1 specification, and Product 2 specification. 
             Do not create new lines or include 'json'. 
             Only return the main array and the array items inside it. 
-            Include the product name as the first row and 'Color' as a feature. 
-            For any missing specifications (e.g., RAM, battery), use 'NA.' 
-            Always try to get same features for both features. Avoid NA always. only use if required
+            Include the product name as the first row and 'Color' as a feature.
+            Always try to get same features for both products. If you dont find the feature, use 'NA'. only use if required.
             Do not include extra content or recommendations. 
             Include a minimum of 10 features.
         `;
