@@ -169,7 +169,7 @@ app.post('/api/compare', async (req, res) => {
             Do not add any extra commas. follow proper json syntax.
             Only return the main array and the array items inside it. 
             Include the product name as the first row and 'Color' as a feature.
-            Always try to get same features for both products.
+            Always try to get same features for both products. Match the features for both the products.
             Do not include extra content or recommendations. 
             Include a minimum of 10 features.
         `;
