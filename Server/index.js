@@ -188,6 +188,7 @@ app.post('/api/compare', async (req, res) => {
             Return the information as an array format, where each item is an array containing three elements: 
             the feature name, Product 1 specification, and Product 2 specification. 
             Do not create new lines or include 'json'. 
+            Do not add any extra commas. follow proper json syntax.
             Only return the main array and the array items inside it. 
             Include the product name as the first row and 'Color' as a feature.
             Always try to get same features for both products.
