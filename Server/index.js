@@ -150,7 +150,7 @@ app.post('/api/compare', async (req, res) => {
         // Navigate to product URLs and wait for page load
         await Promise.all([
             page1.goto(link1, { waitUntil: 'networkidle0' }),
-            page2.goto(link2, { waitUntil: 'networkidle0' })
+            page2.goto(link2, { waitUntil: 'networkidle0', timeout: 60000 })
         ]);
 
         // Remove unnecessary tags and retrieve cleaned HTML content
