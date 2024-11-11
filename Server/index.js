@@ -169,7 +169,7 @@ app.post('/api/compare', async (req, res) => {
 
         // Prompt for generalized product comparison
         const description = `
-            Compare two mobile phones based on their specifications to verify similarity. 
+            Compare two products based on their specifications to verify similarity. 
             Return the information as an array format, where each item is an array containing three elements: 
             the feature name, Product 1 specification, and Product 2 specification. 
             Do not create new lines or include 'json'. 
@@ -181,11 +181,11 @@ app.post('/api/compare', async (req, res) => {
             Include a minimum of 10 features. If the products are not similar, return 'notsimilar.'
         `;
         const comparisonPrompt = `
-           Extract the relevant information from the following content: 
+            Extract the relevant information from the following content: 
             Product 1: ${cleanedHtml1} 
             Product 2: ${cleanedHtml2}. 
             Only include data that directly matches the provided description: ${description}.
-            If the products are not similar, respond with "notsimilar."
+            If the products are not similar (eg: if its mobile and laptop comparision), respond with "notsimilar."
         `;
 
         // Assuming model.generateContent is an API for AI processing of the HTML content
