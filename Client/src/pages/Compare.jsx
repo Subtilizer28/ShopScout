@@ -169,6 +169,29 @@ function Compare() {
                                 <TableCell sx={{ color: 'white' }}>{row[2]}</TableCell>
                             </TableRow>
                         ))}
+                        <TableRow>
+                            <TableCell sx={{ color: 'white' }}>Product Link</TableCell>
+                            <TableCell sx={{ color: 'white' }}>
+                            <Chip
+                                label="Product Link"
+                                component="a"
+                                href={link1}
+                                target="_blank"
+                                clickable
+                                color="primary"
+                            />
+                            </TableCell>
+                            <TableCell sx={{ color: 'white' }}>
+                            <Chip
+                                label="Product Link"
+                                component="a"
+                                href={link2}
+                                target="_blank"
+                                clickable
+                                color="primary"
+                            />
+                            </TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
             )}
