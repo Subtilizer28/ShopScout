@@ -168,22 +168,55 @@ function Compare() {
                 }}>
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{ color: 'white' }}>Feature</TableCell>
-                            <TableCell sx={{ color: 'white' }}>Product 1</TableCell>
-                            <TableCell sx={{ color: 'white' }}>Product 2</TableCell>
+                            <TableCell align="center" sx={{ color: 'white' }}>Feature</TableCell>
+                            <TableCell align="center" sx={{ color: 'white' }}>Product 1</TableCell>
+                            <TableCell align="center" sx={{ color: 'white' }}>Product 2</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {comparisonData.map((row, index) => (
                             <TableRow key={index}>
-                                <TableCell sx={{ color: 'white' }}>{row[0]}</TableCell>
-                                <TableCell sx={{ color: 'white' }}>{row[1]}</TableCell>
-                                <TableCell sx={{ color: 'white' }}>{row[2]}</TableCell>
+                                <TableCell 
+                                    align="center"
+                                    sx={{
+                                        textAlign: "center",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        color: 'white'
+                                    }}
+                                >
+                                    {row[0]}
+                                </TableCell>
+                                <TableCell
+                                    align="center"
+                                    sx={{
+                                        textAlign: "center",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        color: 'white'
+                                    }}
+                                >
+                                    {row[1]}
+                                </TableCell>
+                                <TableCell
+                                    align="center"
+                                    sx={{
+                                        textAlign: "center",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        color: 'white'
+                                    }}
+                                >
+                                    {row[2]}
+                                </TableCell>
                             </TableRow>
                         ))}
                         <TableRow>
-                            <TableCell sx={{ color: 'white' }}>Product Link</TableCell>
-                            <TableCell sx={{ color: 'white' }}>
+                            <TableCell align="center" sx={{ color: 'white' }}>Product Link</TableCell>
+                            <TableCell align="center" sx={{ color: 'white' }}>
                             <Chip
                                 label="Product Link"
                                 component="a"
