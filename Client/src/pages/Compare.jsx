@@ -176,42 +176,9 @@ function Compare() {
                     <TableBody>
                         {comparisonData.map((row, index) => (
                             <TableRow key={index}>
-                                <TableCell 
-                                    align="center"
-                                    sx={{
-                                        textAlign: "center",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        color: 'white'
-                                    }}
-                                >
-                                    {row[0]}
-                                </TableCell>
-                                <TableCell
-                                    align="center"
-                                    sx={{
-                                        textAlign: "center",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        color: 'white'
-                                    }}
-                                >
-                                    {row[1]}
-                                </TableCell>
-                                <TableCell
-                                    align="center"
-                                    sx={{
-                                        textAlign: "center",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        color: 'white'
-                                    }}
-                                >
-                                    {row[2]}
-                                </TableCell>
+                                <TableCell align="center" sx={{ color: 'white' }}>{row[0]}</TableCell>
+                                <TableCell align="center" sx={{ color: 'white' }}>{row[1]}</TableCell>
+                                <TableCell align="center" sx={{ color: 'white' }}>{row[2]}</TableCell>
                             </TableRow>
                         ))}
                         <TableRow>
@@ -226,7 +193,7 @@ function Compare() {
                                 color="primary"
                             />
                             </TableCell>
-                            <TableCell sx={{ color: 'white' }}>
+                            <TableCell align="center" sx={{ color: 'white' }}>
                             <Chip
                                 label="Product Link"
                                 component="a"
