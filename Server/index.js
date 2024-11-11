@@ -141,7 +141,22 @@ app.post('/api/phistory', async (req, res) => {
 app.post('/api/compare', async (req, res) => {
     const { link1, link2 } = req.body;
     let browser;
-
+    if (link1.startsWith('https://dl.flipkart.com/')) {
+        try {
+            link1 = await handleRedirects(link1);
+            console.log(`Redirected URL: ${link2}`);
+        } catch (error) {
+            return res.status(500).json({ error: "Redirect error for Flipkart URL" });
+        }
+    }
+    if (link2.startsWith('https://dl.flipkart.com/')) {
+        try {
+            link2 = await handleRedirects(link2);
+            console.log(`Redirected URL: ${link2}`);
+        } catch (error) {
+            return res.status(500).json({ error: "Redirect error for Flipkart URL" });
+        }
+    }
     try {
         // Launch Puppeteer with minimal permissions for security
         browser = await puppeteer.launch({ 
@@ -179,8 +194,7 @@ app.post('/api/compare', async (req, res) => {
             Always try to get same features for both features. Avoid NA always. only use if required
             Do not include extra content or recommendations. 
             Include a minimum of 10 features. 
-            If the products are not similar (eg: if product 1 is laptop and product 2 is mobile phone), return 'notsimilar'.
-            Make sure that both product type are same. if not return 'notsimilar'
+            If the products are not similar (eg: if product 1 is laptop and product 2 is mobile phone), dont print anything else just return [notsimilar].
         `;
         const comparisonPrompt = `
             Extract the relevant information from the following content: 
