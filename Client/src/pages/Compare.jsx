@@ -9,14 +9,26 @@ function Compare() {
     const [comparisonData, setComparisonData] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const allowedPrefixes = [
+        'https://www.flipkart.com/',
+        'https://dl.flipkart.com/',
+        'https://amazon.in/',
+        'https://www.amazon.in/',
+        'https://amzn.in/',
+        'https://www.amzn.in/'
+    ];
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if ((!link1 || !link2) || (!allowedPrefixes.some(prefix => link1.startsWith(prefix)) || !allowedPrefixes.some(prefix => link2.startsWith(prefix)))) {
+            setError('Please enter a valid link from Flipkart or Amazon.');
+            return;
+        }
         setError('');
         setComparisonData(null);
         setLoading(true);  // Set loading to true when the request starts
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND}/api/compare`, { link1, link2 });
-            console.log(response.data.comparisonResult);
             setLoading(false);  // Set loading to false once the response is received
             if (response.data === "notsimilar") {
                 setError("Products are not similar. Please enter similar products.");

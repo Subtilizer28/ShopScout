@@ -43,12 +43,11 @@ app.post('/api/test', (req,res) => {
 
 app.post('/api/phistory', async (req, res) => {
     let { inputValue } = req.body;
-    console.log(inputValue);
 
     if (inputValue.startsWith('https://dl.flipkart.com/')) {
         try {
             inputValue = await handleRedirects(inputValue);
-            console.log(`Redirected URL: ${inputValue}`);
+            console.log(`Redirected`);
         } catch (error) {
             return res.status(500).json({ error: "Redirect error for Flipkart URL" });
         }
@@ -79,19 +78,16 @@ app.post('/api/phistory', async (req, res) => {
                     null
                 ).singleNodeValue;
                 const titleText = titleElement ? titleElement.textContent : null;
-                console.log("Title:", titleText);
         
                 // Extract image source
                 const img = document.querySelector(
                     "body > div.cgd-page.mm-page.mm-slideout > div > div:nth-child(2) > div.cgd-col.cgd-24u.cmo-primary > div.cmo-mod.cmo-product > div.bd > div > div > div:nth-child(1) > div > div.bd > div > img"
                 );
                 const src = img ? img.getAttribute("src") : null;
-                console.log("Image Source:", src);
         
                 // Extract price
                 const priceElement = document.querySelector(".price-final");
                 const curprice = priceElement ? priceElement.textContent : null;
-                console.log("Current Price:", curprice);
         
                 // Find and parse JSON data
                 let jsonData = { dates: null, prices: null };
@@ -101,7 +97,6 @@ app.post('/api/phistory', async (req, res) => {
                         try {
                             const jsonString = script.textContent.match(/var\s+data\s*=\s*(.*);/)[1];
                             jsonData = JSON.parse(jsonString);
-                            console.log("JSON Data:", jsonData);
                             break;
                         } catch (error) {
                             console.warn("Error parsing JSON data:", error);
@@ -123,7 +118,6 @@ app.post('/api/phistory', async (req, res) => {
             }
         });
 
-        console.log(data);
         if (!data) {
             return res.status(500).json({ error: "Failed to extract data from the page" });
         }
@@ -141,22 +135,6 @@ app.post('/api/phistory', async (req, res) => {
 app.post('/api/compare', async (req, res) => {
     const { link1, link2 } = req.body;
     let browser;
-    if (link1.startsWith('https://dl.flipkart.com/')) {
-        try {
-            link1 = await handleRedirects(link1);
-            console.log(`Redirected URL: ${link2}`);
-        } catch (error) {
-            return res.status(500).json({ error: "Redirect error for Flipkart URL" });
-        }
-    }
-    if (link2.startsWith('https://dl.flipkart.com/')) {
-        try {
-            link2 = await handleRedirects(link2);
-            console.log(`Redirected URL: ${link2}`);
-        } catch (error) {
-            return res.status(500).json({ error: "Redirect error for Flipkart URL" });
-        }
-    }
     try {
         // Launch Puppeteer with minimal permissions for security
         browser = await puppeteer.launch({ 
@@ -208,13 +186,11 @@ app.post('/api/compare', async (req, res) => {
 
         // Check for result validity
         const resultText = comparisonResult.response.text().trim();
-        console.log(resultText)
         if (resultText === "notsimilar") return res.status(400).json({ error: "notsimilar" });
         if (!resultText || resultText === '[null]') return res.status(400).json({ error: "data not found" });
 
         // Return parsed comparison result
         const data = JSON.parse(resultText);
-        console.log(data)
         res.json({ comparisonResult: data });
 
     } catch (error) {
@@ -474,5 +450,5 @@ app.post('/api/lsuggest', async (req, res) => {
 });
 // Start the server
 app.listen(5000, () => {
-    console.log("Server is running on port 5000");
+    console.log("Welcome to ShopScout. You are listening on port 5000");
 });
