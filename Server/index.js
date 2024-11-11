@@ -190,7 +190,7 @@ app.post('/api/compare', async (req, res) => {
             Do not create new lines or include 'json'. 
             Only return the main array and the array items inside it. 
             Include the product name as the first row and 'Color' as a feature.
-            Always try to get same features for both products. If you dont find the feature, use 'NA'. only use if required.
+            Always try to get same features for both products.
             Do not include extra content or recommendations. 
             Include a minimum of 10 features.
         `;
