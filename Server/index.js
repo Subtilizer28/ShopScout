@@ -178,14 +178,15 @@ app.post('/api/compare', async (req, res) => {
             For any missing specifications (e.g., RAM, battery), use 'NA.' 
             Always try to get same features for both features. Avoid NA always. only use if required
             Do not include extra content or recommendations. 
-            Include a minimum of 10 features. If the products are not similar, return 'notsimilar.'
+            Include a minimum of 10 features. 
+            If the products are not similar (eg: if product 1 is laptop and product 2 is mobile phone), return 'notsimilar'.
+            Make sure that both product type are same. if not return 'notsimilar'
         `;
         const comparisonPrompt = `
             Extract the relevant information from the following content: 
             Product 1: ${cleanedHtml1} 
             Product 2: ${cleanedHtml2}. 
             Only include data that directly matches the provided description: ${description}.
-            If the products are not similar (eg: if its mobile and laptop comparision), respond with "notsimilar."
         `;
 
         // Assuming model.generateContent is an API for AI processing of the HTML content
