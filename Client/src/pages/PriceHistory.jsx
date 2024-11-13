@@ -3,7 +3,17 @@ import axios from 'axios';
 import { TextField, Button, CircularProgress, Box, Typography} from '@mui/material';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip } from 'chart.js';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
+const setCookie = (name, value, days) => {
+    const expires = days ? `; expires=${new Date(Date.now() + days * 864e5).toUTCString()}` : '';
+    document.cookie = `${name}=${encodeURIComponent(JSON.stringify(value)) || ''}${expires}; path=/`;
+};
+const getCookie = (name) => {
+    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+    return match ? JSON.parse(decodeURIComponent(match[2])) : null;
+};
+  
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip);
 
 function PriceHistory() {
@@ -31,6 +41,22 @@ function PriceHistory() {
             },
         ],
     });
+    const toggleWishlist = (title, image, link) => {
+        const wishlist = getCookie('wishlist') || [];
+        const itemIndex = wishlist.findIndex(item => item.link === link);
+    
+        let updatedWishlist;
+        if (itemIndex !== -1) {
+            // Remove item if it already exists
+            updatedWishlist = wishlist.filter((item) => item.link !== link);
+        } else {
+            // Add new item if it doesn't exist
+            updatedWishlist = [...wishlist, { title, image, link }];
+        }
+    
+        setCookie('wishlist', updatedWishlist, 7); // Expires in 7 days
+    };
+
     const allowedPrefixes = [
         'https://www.flipkart.com/',
         'https://dl.flipkart.com/',
@@ -179,12 +205,17 @@ function PriceHistory() {
                                     fontWeight: 'bold',
                                     fontSize: '20px',
                                     alignItems: 'center',
-                                    marginBottom: 10,
                                     padding: 2,
                                     backgroundColor: 'rgba(0,0,0,0.1)'
                                 }}>
                                     Max Price: ₹{maxPrice}
                                 </Box>
+                                <br />
+                                <FavoriteIcon
+                                    onClick={() => toggleWishlist(title, prodimage, inputValue)}
+                                    color={getCookie('wishlist')?.some(item => item.link === inputValue) ? 'error' : 'disabled'}
+                                    sx={{ cursor: 'pointer', marginTop: 1, marginBottom: 10, marginLeft: 'auto', marginRight: 'auto' }}
+                                />
                             </Box>
                             <Box sx={{
                                 width: '30%',

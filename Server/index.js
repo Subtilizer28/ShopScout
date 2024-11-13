@@ -57,8 +57,7 @@ app.post('/api/phistory', async (req, res) => {
 
     let browser;
     try {
-        browser = await puppeteer.launch({ 
-            executablePath: '/usr/bin/chromium-browser',
+        browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
@@ -255,8 +254,7 @@ app.post('/api/psuggest', async (req, res) => {
     // Launch puppeteer
     let browser;
     try {
-        browser = await puppeteer.launch({ 
-            executablePath: '/usr/bin/chromium-browser',
+        browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
          });
@@ -385,8 +383,7 @@ app.post('/api/lsuggest', async (req, res) => {
     // Launch puppeteer
     let browser;
     try {
-        browser = await puppeteer.launch({ 
-            executablePath: '/usr/bin/chromium-browser',
+        browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
          });

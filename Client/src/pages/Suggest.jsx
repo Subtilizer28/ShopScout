@@ -4,6 +4,16 @@ import {
   Box, Button, CircularProgress, Card, CardContent, Typography, Chip, Fade,
   Checkbox, Slider, TextField, FormControl, FormControlLabel, FormGroup
 } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
+const setCookie = (name, value, days) => {
+  const expires = days ? `; expires=${new Date(Date.now() + days * 864e5).toUTCString()}` : '';
+  document.cookie = `${name}=${encodeURIComponent(JSON.stringify(value)) || ''}${expires}; path=/`;
+};
+const getCookie = (name) => {
+  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+  return match ? JSON.parse(decodeURIComponent(match[2])) : null;
+};
 
 function Suggest() {
   const [loading, setLoading] = useState(false);
@@ -38,6 +48,21 @@ function Suggest() {
     selectedProcessor: []
   });
 
+  const toggleWishlist = (title, image, link) => {
+    const wishlist = getCookie('wishlist') || [];
+    const itemIndex = wishlist.findIndex(item => item.link === link);
+
+    let updatedWishlist;
+    if (itemIndex !== -1) {
+        // Remove item if it already exists
+        updatedWishlist = wishlist.filter((item) => item.link !== link);
+    } else {
+        // Add new item if it doesn't exist
+        updatedWishlist = [...wishlist, { title, image, link }];
+    }
+
+    setCookie('wishlist', updatedWishlist, 7); // Expires in 7 days
+  };
   const handleDeviceTypeSelect = (type) => {
     setDeviceType(type);
     if (type === 'Phone') {setShowPhoneInputs(true); setShowInputs(true)};
@@ -802,6 +827,12 @@ function Suggest() {
                         target="_blank"
                         clickable
                         color="primary"
+                      />
+                      <br />
+                      <FavoriteIcon
+                        onClick={() => toggleWishlist(product.name, product.image, product.flipkartLink)}
+                        color={getCookie('wishlist')?.some(item => item.link === product.flipkartLink) ? 'error' : 'disabled'}
+                        sx={{ cursor: 'pointer', marginTop: 1, marginLeft: 'auto', marginRight: 'auto' }}
                       />
                     </Box>
                   </CardContent>
