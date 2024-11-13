@@ -13,7 +13,9 @@ const app = express();
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+    origin: `${process.env.FRONTEND}`
+}))
 
 // Redirect Handler for Flipkart URL (Separate for clarity)
 const handleRedirects = async (url) => {
