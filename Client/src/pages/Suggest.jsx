@@ -711,7 +711,7 @@ function Suggest() {
                               </Box>
                               {/* Hard Disk Selection */}
                               <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginLeft: 1, marginRight: 1, marginBottom: 15, borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>HDD SSD</Typography>
+                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>HDD Storage</Typography>
                                 <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1, marginBottom: 1 }}>
                                   {["1 TB", "256 GB", "500 GB"].map((hddOption) => (
                                     <FormControlLabel
