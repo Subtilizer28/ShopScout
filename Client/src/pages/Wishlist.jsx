@@ -1,14 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Chip, CardContent, Typography, Box } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 // Function to retrieve the wishlist data from cookies
 const getCookie = (name) => {
     const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
     return match ? JSON.parse(decodeURIComponent(match[2])) : [];
 };
+const setCookie = (name, value, days) => {
+  const expires = days ? `; expires=${new Date(Date.now() + days * 864e5).toUTCString()}` : '';
+  document.cookie = `${name}=${encodeURIComponent(JSON.stringify(value)) || ''}${expires}; path=/`;
+};
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
+  
+  const toggleWishlist = (title, image, link) => {
+    const wishlist = getCookie('wishlist') || [];
+    const itemIndex = wishlist.findIndex(item => item.link === link);
+
+    let updatedWishlist;
+    if (itemIndex !== -1) {
+        // Remove item if it already exists
+        updatedWishlist = wishlist.filter((item) => item.link !== link);
+    } else {
+        // Add new item if it doesn't exist
+        updatedWishlist = [...wishlist, { title, image, link }];
+    }
+
+    setCookie('wishlist', updatedWishlist, 7); // Expires in 7 days
+  };
 
   useEffect(() => {
     const wishlistData = getCookie('wishlist');
@@ -69,6 +90,11 @@ const Wishlist = () => {
                         }}
                     />
                 </Typography>
+                <FavoriteIcon
+                        onClick={() => toggleWishlist(item.name, item.image, item.link)}
+                        color={getCookie('wishlist')?.some(item => item.link === item.link) ? 'error' : 'disabled'}
+                        sx={{ cursor: 'pointer', marginTop: 1, marginLeft: 'auto', marginRight: 'auto' }}
+                      />
                 </CardContent>
           </Card>
         </Box>

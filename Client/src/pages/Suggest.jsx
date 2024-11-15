@@ -358,7 +358,7 @@ function Suggest() {
                               <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5 }}>
                                 <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>RAM</Typography>
                                 <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
-                                  {["4 GB", "3 GB", "2 GB", "1GB and Below", "8 GB and Above", "6 GB", "6 GB Above"].map((phoneRamOption) => (
+                                  {["4 GB", "3 GB", "2 GB", "1GB and Below", "8 GB and Above", "6 GB"].map((phoneRamOption) => (
                                     <FormControlLabel
                                       key={phoneRamOption}
                                       value={phoneRamOption}
