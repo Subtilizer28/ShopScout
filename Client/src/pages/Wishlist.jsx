@@ -51,7 +51,7 @@ const Wishlist = () => {
         <Box key={index} 
             sx={{ 
                 width: 200, 
-                minHeight: 320,
+                minHeight: 355,
                 marginBottom: 2
             }}
         >
@@ -60,7 +60,7 @@ const Wishlist = () => {
                 borderRadius: "25px", 
                 boxShadow: 5, 
                 color: 'white',
-                minHeight: 320,
+                minHeight: 355,
             }}>
                 <Box
                     component="img"
@@ -69,7 +69,6 @@ const Wishlist = () => {
                     sx={{
                         height: 140,
                         width: '100%',
-                        objectFit: 'cover',
                     }}
                 />
                 <CardContent>
