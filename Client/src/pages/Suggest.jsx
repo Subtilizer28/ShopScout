@@ -6,13 +6,41 @@ import {
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-const setCookie = (name, value, days) => {
-  const expires = days ? `; expires=${new Date(Date.now() + days * 864e5).toUTCString()}` : '';
-  document.cookie = `${name}=${encodeURIComponent(JSON.stringify(value)) || ''}${expires}; path=/`;
+const setMultiCookie = (name, data, days) => {
+  const jsonData = JSON.stringify(data);
+  const chunkSize = 3800; // Slightly less than 4 KB to account for encoding and metadata
+  const chunks = [];
+
+  for (let i = 0; i < jsonData.length; i += chunkSize) {
+      chunks.push(jsonData.slice(i, i + chunkSize));
+  }
+
+  chunks.forEach((chunk, index) => {
+      const date = new Date();
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+      const expires = `expires=${date.toUTCString()}`;
+      document.cookie = `${name}_${index}=${encodeURIComponent(chunk)}; ${expires}; path=/`;
+  });
+
+  // Add metadata for tracking chunks
+  document.cookie = `${name}_count=${chunks.length}; path=/`;
 };
-const getCookie = (name) => {
-  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-  return match ? JSON.parse(decodeURIComponent(match[2])) : null;
+
+const getMultiCookie = (name) => {
+  const countMatch = document.cookie.match(new RegExp(`(^| )${name}_count=([^;]+)`));
+  const count = countMatch ? parseInt(countMatch[2], 10) : 0;
+
+  if (count === 0) return null;
+
+  const chunks = [];
+  for (let i = 0; i < count; i++) {
+      const chunkMatch = document.cookie.match(new RegExp(`(^| )${name}_${i}=([^;]+)`));
+      if (chunkMatch) {
+          chunks.push(decodeURIComponent(chunkMatch[2]));
+      }
+  }
+
+  return chunks.length ? JSON.parse(chunks.join('')) : null;
 };
 
 function Suggest() {
@@ -49,20 +77,21 @@ function Suggest() {
   });
 
   const toggleWishlist = (title, image, link) => {
-    const wishlist = getCookie('wishlist') || [];
-    const itemIndex = wishlist.findIndex(item => item.link === link);
+    const wishlist = getMultiCookie('wishlist') || [];
+    const itemIndex = wishlist.findIndex((item) => item.link === link);
 
     let updatedWishlist;
     if (itemIndex !== -1) {
-        // Remove item if it already exists
         updatedWishlist = wishlist.filter((item) => item.link !== link);
+        alert('Item removed from wishlist!');
     } else {
-        // Add new item if it doesn't exist
         updatedWishlist = [...wishlist, { title, image, link }];
+        alert('Item added to wishlist!');
     }
 
-    setCookie('wishlist', updatedWishlist, 7); // Expires in 7 days
+    setMultiCookie('wishlist', updatedWishlist, 7); // Expires in 7 days
   };
+
   const handleDeviceTypeSelect = (type) => {
     setDeviceType(type);
     if (type === 'Phone') {setShowPhoneInputs(true); setShowInputs(true)};
@@ -831,7 +860,7 @@ function Suggest() {
                       <br />
                       <FavoriteIcon
                         onClick={() => toggleWishlist(product.name, product.image, product.flipkartLink)}
-                        color={getCookie('wishlist')?.some(item => item.link === product.flipkartLink) ? 'error' : 'disabled'}
+                        color={getMultiCookie('wishlist')?.some(item => item.link === product.flipkartLink) ? 'error' : 'disabled'}
                         sx={{ cursor: 'pointer', marginTop: 1, marginLeft: 'auto', marginRight: 'auto' }}
                       />
                     </Box>
