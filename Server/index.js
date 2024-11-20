@@ -188,6 +188,7 @@ app.post('/api/compare', async (req, res) => {
 
         // Check for result validity
         const resultText = comparisonResult.response.text().trim();
+        console.log(resultText);
         if (resultText === "notsimilar") return res.status(400).json({ error: "notsimilar" });
         if (!resultText || resultText === '[null]') return res.status(400).json({ error: "data not found" });
 
