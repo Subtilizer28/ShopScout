@@ -11,7 +11,7 @@ puppeteer.use(StealthPlugin())
 
 const app = express();
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 app.use(express.json());
 app.use(cors({
     origin: `${process.env.FRONTEND}`
