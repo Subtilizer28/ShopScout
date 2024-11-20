@@ -166,21 +166,20 @@ app.post('/api/compare', async (req, res) => {
             Compare two products based on their specifications to verify similarity. 
             Return the information as an array format, where each item is an array containing three elements: 
             the feature name, Product 1 specification, and Product 2 specification. 
-            Do not create new lines or include 'json'. 
-            Do not add any extra commas. follow proper json syntax.
-            Only return the main array and the array items inside it. 
-            Include the product name as the first row and 'Color' as a feature.
-            Include the image link as the second row.
-            Always try to get same features for both products. Match the features for both the products.
-            Do not include extra content or recommendations. 
-            Include a minimum of 10 features.
+            Ensure the response is valid JSON and properly formatted without extra content or formatting. 
+            Do not include 'json' or new lines in the response. Only return the main array. 
+            Include the product name as the first row, 'Image Link' as the second row, and 'Color' as the third row. 
+            Always aim to match features for both products and ensure a minimum of 10 features. 
+            If the products are not similar (e.g., one is a laptop and the other is a mobile phone), return ["notsimilar"]. 
+            Ensure there are no extra commas, invalid syntax, or recommendations in the response.
         `;
         const comparisonPrompt = `
             Extract the relevant information from the following content: 
             Product 1: ${cleanedHtml1} 
             Product 2: ${cleanedHtml2}. 
-            Only include data that directly matches the provided description: ${description}.
-            If the products are not similar (eg: if product 1 is laptop and product 2 is mobile phone), dont print anything else just return [notsimilar]
+            Follow the requirements in the description: ${description}. 
+            If the products are not similar, return ["notsimilar"] without extra content or formatting. 
+            Ensure the response is valid JSON and includes at least 10 matched features.
         `;
 
         // Assuming model.generateContent is an API for AI processing of the HTML content
