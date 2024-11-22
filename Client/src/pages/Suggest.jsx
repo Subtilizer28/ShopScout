@@ -51,7 +51,7 @@ function Suggest() {
   const [showInputs, setShowInputs] = useState(false);
   const [showPhoneInputs, setShowPhoneInputs] = useState(false);
   const [showLaptopInputs, setShowLaptopInputs] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 600000]);
+  const [priceRange, setPriceRange] = useState([0, 300000]);
   const [error, setError] = useState('');
   const [phoneFormData, setPhoneFormData] = useState({
     brand: [],           // for single-value inputs like brand
@@ -186,7 +186,7 @@ function Suggest() {
     }
   };
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 4, maxHeight: '800px' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 4 }}>
       
       {/* Specification Selection Section - Hidden when form is submitted */}
       {!submitted && (
@@ -248,541 +248,716 @@ function Suggest() {
                 }}>
                   {/* Phone-specific inputs */}
                   {showPhoneInputs && (
-                    <FormControl
-                      onSubmit={handleSubmit}
-                    >
-                      <Typography variant="h5" sx={{ color: 'white', mb: 3, fontWeight: 'bold', marginTop: 20 }} gutterBottom>
+                    <FormControl onSubmit={handleSubmit}>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          color: 'white',
+                          mb: 3,
+                          fontWeight: 'bold',
+                          marginTop: { xs: 1, sm: 1, md: 1 },
+                        }}
+                        gutterBottom
+                      >
                         Select Specifications
                       </Typography>
                       <Box
                         sx={{
                           display: 'flex',
-                          height: 'cover',
-                          margin: 1,
-                        }}>
+                          flexDirection: { xs: 'column', md: 'row' },
+                          height: 'auto',
+                          gap: 2,
+                          p: 2,
+                        }}
+                      >
+                        {/* Brand Selection */}
+                        <Box
+                          sx={{
+                            backgroundColor: 'rgba(0,0,0,0.1)',
+                            borderRadius: 5,
+                            p: 2,
+                            flex: { xs: '1 1 auto', md: '1 0 30%' },
+                            color: 'white',
+                            paddingLeft: '40px',
+                            marginBottom: 'auto'
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{ marginBottom: 1 }}
+                            gutterBottom
+                          >
+                            Brands
+                          </Typography>
+                          <Box
+                            sx={{
+                              display: 'grid',
+                              gridTemplateColumns: 'repeat(2, 1fr)', // Two columns
+                              gap: 1, // Gap between grid items
+                            }}
+                          >
+                            {[
+                              'Apple', 'Samsung', 'Google', 'Motorola', 'Vivo', 'Oppo',
+                              'Realme', 'OnePlus', 'LG', 'Mi', 'IQOO', 'ASUS',
+                              'HTC', 'Sony', 'Tecno', 'Nokia', 'Honor',
+                            ].map((brand) => (
+                              <FormControlLabel
+                                key={brand}
+                                control={
+                                  <Checkbox
+                                    id={brand}
+                                    value={brand}
+                                    onChange={(e) => handleCheckboxChange(e, 'brand')}
+                                    checked={phoneFormData.brand.includes(brand)}
+                                    sx={{
+                                      color: 'white',
+                                      '&.Mui-checked': { color: 'white' },
+                                    }}
+                                  />
+                                }
+                                label={<Typography color="white" variant="body2">{brand}</Typography>}
+                              />
+                            ))}
+                          </Box>
+                        </Box>
+
+                        {/* Specifications */}
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 2,
+                            flex: { xs: '1 1 auto', md: '2 0 60%' },
+                          }}
+                        >
+                          {/* Price Range */}
                           <Box
                             sx={{
                               backgroundColor: 'rgba(0,0,0,0.1)',
                               borderRadius: 5,
-                              height: 'auto',
-                              display: 'flex',
-                              flexWrap: 'wrap',
-                              width: '30%',
-                              boxSizing: 'border-box',
-                              marginLeft: 3.5,
-                              marginRight: 3,
-                              marginTop: 3,
-                              padding: 1,
-                              marginBottom: 25,
-                              color: 'white'
+                              p: 2,
                             }}
                           >
-                            <Typography color="white" variant="body2" sx={{ marginTop: 1, width: '90%', marginBottom: 1 }}>Brands</Typography>
-                            {[
-                              "Apple", "Samsung", "Google", "Motorola", "Vivo", "Oppo", 
-                              "Realme", "OnePlus", "LG", "Mi", "IQOO", "ASUS", 
-                              "HTC", "Sony", "Tecno", "Nokia", "Honor"
-                            ].map((brand) => (
-                              <Box
-                                key={brand}
+                            <Typography
+                              variant="body2"
+                              sx={{ marginBottom: 1 }}
+                              color='white'
+                            >
+                              Price Range
+                            </Typography>
+                            <Slider
+                              value={priceRange}
+                              onChange={handlePriceChange}
+                              valueLabelDisplay="auto"
+                              min={0}
+                              max={250000}
+                              sx={{ color: 'white', width: '80%' }}
+                            />
+                            <Box sx={{ display: 'flex', justifyContent: 'space-around', gap: 2 }}>
+                              <TextField
+                                name="min"
+                                value={priceRange[0]}
+                                onChange={(e) => handlePriceChange(e, [Number(e.target.value), priceRange[1]])}
+                                size="small"
                                 sx={{
-                                  width: 90, // Allows two checkboxes per row
-                                  padding: '2px 8px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  marginLeft: -1,
-                                  marginTop: -10,
+                                  backgroundColor: 'white',
+                                  borderRadius: 5,
+                                  width: '30%',
+                                  input: { textAlign: 'center', fontSize: '0.85rem' },
                                 }}
-                              >
-                                <FormControlLabel
-                                  control={<Checkbox id={brand} value={brand} onChange={(e) => handleCheckboxChange(e, 'brand')} checked={phoneFormData.brand.includes(brand)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />} 
-                                  label={brand} 
-                                  sx={{ 
-                                    marginTop: -1.5,
-                                    marginLeft: 0 
-                                  }} 
-                                />
-                              </Box>
-                            ))}
+                              />
+                              <TextField
+                                name="max"
+                                value={priceRange[1]}
+                                onChange={(e) => handlePriceChange(e, [priceRange[0], Number(e.target.value)])}
+                                size="small"
+                                sx={{
+                                  backgroundColor: 'white',
+                                  borderRadius: 5,
+                                  width: '30%',
+                                  input: { textAlign: 'center', fontSize: '0.85rem' },
+                                }}
+                              />
+                            </Box>
                           </Box>
+
+                          {/* RAM Selection */}
                           <Box
                             sx={{
-                              backgroundColor: 'transparent',
-                              height: 'cover',
-                              width: '60%',
-                              display: 'flex',
-                              flexWrap: 'wrap',
-                              boxSizing: 'border-box',
-                              marginTop: 2
+                              backgroundColor: 'rgba(0,0,0,0.1)',
+                              borderRadius: 5,
+                              p: 2,
                             }}
                           >
-                            <Box sx={{ display: 'flex', gap: 2, mb: 1, margin: 1 }}>
-                              {/* Min-Max Price Slider */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginBottom: 3, borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>Price Range</Typography>
-                                <Slider
-                                  value={priceRange}
-                                  onChange={handlePriceChange}
-                                  valueLabelDisplay="auto"
-                                  min={0}
-                                  max={250000}
-                                  sx={{ color: 'white', width: '70%' }}
+                            <Typography variant="body2" sx={{ marginBottom: 1 }} color='white' >
+                              RAM
+                            </Typography>
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                              {['4 GB', '3 GB', '2 GB', '1GB and Below', '8 GB and Above', '6 GB'].map((ram) => (
+                                <FormControlLabel
+                                  key={ram}
+                                  control={
+                                    <Checkbox
+                                      id={ram}
+                                      value={ram}
+                                      onChange={(e) => handleCheckboxChange(e, 'selectedRams')}
+                                      checked={phoneFormData.selectedRams.includes(ram)}
+                                      sx={{
+                                        color: 'white',
+                                        '&.Mui-checked': { color: 'white' },
+                                      }}
+                                    />
+                                  }
+                                  label={<Typography color="white" variant="body2">{ram}</Typography>}
                                 />
-                                <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 1 }}>
-                                  <TextField
-                                    name='min'
-                                    value={priceRange[0]}
-                                    onChange={(e) => handlePriceChange(e, [Number(e.target.value), priceRange[1]])}
-                                    sx={{ 
-                                      '& .MuiOutlinedInput-root': {
-                                        '& fieldset': {
-                                          borderColor: 'transparent', // Border color
-                                        },
-                                        '&:hover fieldset': {
-                                          borderColor: 'transparent', // Hover border color
-                                        }
-                                      },
-                                      width: '40%', 
-                                      background: 'white', 
-                                      height: 30,
-                                      borderRadius: 5,
-                                      input: {
-                                        textAlign: 'center',
-                                        color: 'black', // Text color inside the TextField
-                                        padding: '4px 8px', // Adjust padding for a more compact size
-                                        fontSize: '0.85rem'
-                                      },
-                                    }}
-                                  />
-                                  <TextField
-                                    name='max'
-                                    value={priceRange[1]}
-                                    onChange={(e) => handlePriceChange(e, [priceRange[0], Number(e.target.value)])}
-                                    size="small"
+                              ))}
+                            </Box>
+                          </Box>
+                          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 1 }}>
+                            {/* Internal Storage Selection */}
+                            <Box
+                              sx={{
+                                backgroundColor: 'rgba(0,0,0,0.1)',
+                                borderRadius: 5,
+                                p: 2,
+                                color: 'white',
+                              }}
+                            >
+                              <Typography variant="body2" sx={{ mb: 1 }}>
+                                Internal Storage
+                              </Typography>
+                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                {[
+                                  "256 GB & Above",
+                                  "128 - 255.9 GB",
+                                  "64 - 127.9 GB",
+                                  "32 - 63.9 GB",
+                                  "16 - 31.9 GB",
+                                  "Less than 16 GB",
+                                ].map((storageOption) => (
+                                  <FormControlLabel
+                                    key={storageOption}
+                                    control={
+                                      <Checkbox
+                                        id={storageOption}
+                                        value={storageOption}
+                                        onChange={(e) => handleCheckboxChange(e, 'selectedStorage')}
+                                        checked={phoneFormData.selectedStorage.includes(storageOption)}
+                                        sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                      />
+                                    }
+                                    label={<Typography variant="body2">{storageOption}</Typography>}
                                     sx={{
-                                      '& .MuiOutlinedInput-root': {
-                                        '& fieldset': {
-                                          borderColor: 'transparent', // Border color
-                                        },
-                                        '&:hover fieldset': {
-                                          borderColor: 'transparent', // Hover border color
-                                        }
-                                      },
-                                      width: '40%', 
-                                      background: 'white', 
-                                      height: 30,
-                                      borderRadius: 5,
-                                      input: {
-                                        textAlign: 'center',
-                                        color: 'black', // Text color inside the TextField
-                                        padding: '4px 8px', // Adjust padding for a more compact size
-                                        fontSize: '0.85rem'
-                                      },
+                                      flex: '1 1 45%', // Items take up about half the width
+                                      m: 0,
                                     }}
                                   />
-                                </Box>
-                              </Box>
-                              
-                              {/* RAM Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>RAM</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
-                                  {["4 GB", "3 GB", "2 GB", "1GB and Below", "8 GB and Above", "6 GB"].map((phoneRamOption) => (
-                                    <FormControlLabel
-                                      key={phoneRamOption}
-                                      value={phoneRamOption}
-                                      control={<Checkbox id={phoneRamOption} value={phoneRamOption} onChange={(e) => handleCheckboxChange(e, 'selectedRams')} checked={phoneFormData.selectedRams.includes(phoneRamOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{phoneRamOption}</Typography>}
-                                      sx={{
-                                        width: 105,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 0,
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
+                                ))}
                               </Box>
                             </Box>
 
-                            <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
-                              {/* Internal Storage Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginLeft: 1, marginBottom: 12, marginTop: -3, borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>Internal Storage</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1}}>
-                                  {["256 GB & Above", "128 - 255.9 GB", "64 - 127.9 GB", "32 - 63.9 GB", "16 - 31.9 GB", "256 GB Above"].map((storageOption, index) => (
-                                    <FormControlLabel
-                                      key={storageOption}
-                                      value={storageOption}
-                                      control={<Checkbox id={storageOption} value={storageOption} onChange={(e) => handleCheckboxChange(e, 'selectedStorage')} checked={phoneFormData.selectedStorage.includes(storageOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{storageOption}</Typography>}
-                                      sx={{
-                                        width: 108,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 1,
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
-                              </Box>
-                              
-                              {/* Battery Capacity Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginRight: 1, borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>Battery Capacity</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
-                                  {["1000 - 1999 mAh", "2000 - 2999 mAh", "3000 - 3999 mAh", "4000 - 4999 mAh", "5000 - 5999 mAh", "5000 mAh Above", "6000 mAh & Above", "Less than 1000 mAh"].map((batteryOption) => (
-                                    <FormControlLabel
-                                      key={batteryOption}
-                                      value={batteryOption}
-                                      control={<Checkbox id={batteryOption} value={batteryOption} onChange={(e) => handleCheckboxChange(e, 'selectedBattery')} checked={phoneFormData.selectedBattery.includes(batteryOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{batteryOption}</Typography>}
-                                      sx={{
-                                        width: 108,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 1,
-                                        marginBottom: 1
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
+                            {/* Battery Capacity Selection */}
+                            <Box
+                              sx={{
+                                backgroundColor: 'rgba(0,0,0,0.1)',
+                                borderRadius: 5,
+                                p: 2,
+                                color: 'white',
+                              }}
+                            >
+                              <Typography variant="body2" sx={{ mb: 1 }}>
+                                Battery Capacity
+                              </Typography>
+                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                {[
+                                  "1000 - 1999 mAh",
+                                  "2000 - 2999 mAh",
+                                  "3000 - 3999 mAh",
+                                  "4000 - 4999 mAh",
+                                  "5000 - 5999 mAh",
+                                  "6000 mAh & Above",
+                                  "Less than 1000 mAh",
+                                ].map((batteryOption) => (
+                                  <FormControlLabel
+                                    key={batteryOption}
+                                    control={
+                                      <Checkbox
+                                        id={batteryOption}
+                                        value={batteryOption}
+                                        onChange={(e) => handleCheckboxChange(e, 'selectedBattery')}
+                                        checked={phoneFormData.selectedBattery.includes(batteryOption)}
+                                        sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                      />
+                                    }
+                                    label={<Typography variant="body2">{batteryOption}</Typography>}
+                                    sx={{
+                                      flex: '1 1 45%',
+                                      m: 0,
+                                    }}
+                                  />
+                                ))}
                               </Box>
                             </Box>
 
-                            <Box sx={{ display: 'flex', gap: 2 }}>
-                              {/* Screen Size Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginLeft: 1, marginTop: -12, marginBottom: 8, borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>Screen Size</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1, marginBottom: 1 }}>
-                                  {["5.7 - 5.9 inch", "5.5 - 5.6 inch", "5.2 - 5.4 inch", "4.5 - 4.9 inch", "4 - 4.4 inch", "6.4 inch & Above", "6 - 6.3 inch", "6 inch above"].map((phoneScreenOption) => (
-                                    <FormControlLabel
-                                      key={phoneScreenOption}
-                                      value={phoneScreenOption}
-                                      control={<Checkbox id={phoneScreenOption} value={phoneScreenOption} onChange={(e) => handleCheckboxChange(e, 'selectedScreen')} checked={phoneFormData.selectedScreen.includes(phoneScreenOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{phoneScreenOption}</Typography>}
-                                      sx={{
-                                        width: 107,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 1,
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
+                            {/* Screen Size Selection */}
+                            <Box
+                              sx={{
+                                backgroundColor: 'rgba(0,0,0,0.1)',
+                                borderRadius: 5,
+                                p: 2,
+                                color: 'white',
+                              }}
+                            >
+                              <Typography variant="body2" sx={{ mb: 1 }}>
+                                Screen Size
+                              </Typography>
+                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                {[
+                                  "6.4 inch & Above",
+                                  "6 - 6.3 inch",
+                                  "5.7 - 5.9 inch",
+                                  "5.5 - 5.6 inch",
+                                  "5.2 - 5.4 inch",
+                                  "4.5 - 4.9 inch",
+                                  "4 - 4.4 inch",
+                                ].map((screenOption) => (
+                                  <FormControlLabel
+                                    key={screenOption}
+                                    control={
+                                      <Checkbox
+                                        id={screenOption}
+                                        value={screenOption}
+                                        onChange={(e) => handleCheckboxChange(e, 'selectedScreen')}
+                                        checked={phoneFormData.selectedScreen.includes(screenOption)}
+                                        sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                      />
+                                    }
+                                    label={<Typography variant="body2">{screenOption}</Typography>}
+                                    sx={{
+                                      flex: '1 1 45%',
+                                      m: 0,
+                                    }}
+                                  />
+                                ))}
                               </Box>
-                              
-                              {/* Processor Clock Speed Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginLeft: 1, marginRight: 1, marginBottom: 3, borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>Processor Clock Speed</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1, marginBottom: 1 }}>
-                                  {["1.5 - 1.9 GHz", "2 - 2.1 GHz", "2.2 - 2.4 GHz", "2.5 & Above", "2.5 GHz Above", "Below 1.5 GHz", "2 - 2.5 GHz"].map((speedOption) => (
-                                    <FormControlLabel
-                                      key={speedOption}
-                                      value={speedOption}
-                                      control={<Checkbox id={speedOption} value={speedOption} onChange={(e) => handleCheckboxChange(e, 'selectedClock')} checked={phoneFormData.selectedClock.includes(speedOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{speedOption}</Typography>}
-                                      sx={{
-                                        width: 107,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 1,
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
+                            </Box>
+
+                            {/* Processor Clock Speed Selection */}
+                            <Box
+                              sx={{
+                                backgroundColor: 'rgba(0,0,0,0.1)',
+                                borderRadius: 5,
+                                p: 2,
+                                color: 'white',
+                              }}
+                            >
+                              <Typography variant="body2" sx={{ mb: 1 }}>
+                                Processor Clock Speed
+                              </Typography>
+                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                {[
+                                  "2.5 GHz & Above",
+                                  "2.2 - 2.4 GHz",
+                                  "2 - 2.1 GHz",
+                                  "1.5 - 1.9 GHz",
+                                  "Below 1.5 GHz",
+                                ].map((clockOption) => (
+                                  <FormControlLabel
+                                    key={clockOption}
+                                    control={
+                                      <Checkbox
+                                        id={clockOption}
+                                        value={clockOption}
+                                        onChange={(e) => handleCheckboxChange(e, 'selectedClock')}
+                                        checked={phoneFormData.selectedClock.includes(clockOption)}
+                                        sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                      />
+                                    }
+                                    label={<Typography variant="body2">{clockOption}</Typography>}
+                                    sx={{
+                                      flex: '1 1 45%',
+                                      m: 0,
+                                    }}
+                                  />
+                                ))}
                               </Box>
                             </Box>
                           </Box>
+                        </Box>
                       </Box>
                     </FormControl>
                   )}
 
                   {/* Laptop-specific inputs */}
                   {showLaptopInputs && (
-                    <FormControl
-                      onSubmit={handleSubmit}
-                    >
-                      <Typography variant="h5" sx={{ color: 'white', mb: 3, fontWeight: 'bold', marginTop: 55 }} gutterBottom>
+                    <FormControl onSubmit={handleSubmit}>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          color: 'white',
+                          mb: 3,
+                          fontWeight: 'bold',
+                          marginTop: { xs: 1, sm: 1, md: 1 },
+                        }}
+                        gutterBottom
+                      >
                         Select Specifications
                       </Typography>
                       <Box
                         sx={{
                           display: 'flex',
-                          height: 'cover',
-                          margin: 1,
+                          flexDirection: { xs: 'column', md: 'row' },
+                          height: 'auto',
+                          gap: 2,
+                          p: 2,
                         }}
                       >
+                        {/* Brand Selection */}
+                        <Box
+                          sx={{
+                            backgroundColor: 'rgba(0,0,0,0.1)',
+                            borderRadius: 5,
+                            p: 2,
+                            flex: { xs: '1 1 auto', md: '1 0 30%' },
+                            color: 'white',
+                            paddingLeft: '40px',
+                            marginBottom: 'auto',
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{ marginBottom: 1 }}
+                            gutterBottom
+                          >
+                            Brands
+                          </Typography>
                           <Box
                             sx={{
-                              backgroundColor: 'rgba(0,0,0,0.1)',
-                              borderRadius: 5,
-                              height: 'auto',
-                              maxHeight: 650,
-                              display: 'flex',
-                              flexWrap: 'wrap',
-                              width: '30%',
-                              boxSizing: 'border-box',
-                              marginLeft: 3.5,
-                              marginRight: 3,
-                              marginTop: 3,
-                              padding: 1,
-                              marginBottom: 25,
-                              color: 'white'
+                              display: 'grid',
+                              gridTemplateColumns: 'repeat(2, 1fr)', // Two columns
+                              gap: 1, // Gap between grid items
                             }}
                           >
-                            <Typography color="white" variant="body2" sx={{ marginTop: 1, width: '90%', marginBottom: 1 }}>Brands</Typography>
                             {[
                               "HP", "ASUS", "Lenovo", "DELL", "MSI", "Avita", "Acer", "Apple", "Infinix",
                               "Samsung", "AXL", "Ultimus", "Gigabyte", 
                               "Zebronics", "Colorful", "Thomson", "Chuwi", "Wings", "realme", "Microsoft",
                               "Vaio", "Alienware", "walker", "Primebook"
                             ].map((brand) => (
-                              <Box
+                              <FormControlLabel
                                 key={brand}
-                                sx={{
-                                  width: 90, // Allows two checkboxes per row
-                                  padding: '8px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  marginLeft: -1,
-                                  marginTop: -10,
-                                }}
-                              >
-                                <FormControlLabel
-                                  control={<Checkbox id={brand} value={brand} onChange={(e) => handleCheckboxChange(e, 'brand')} checked={laptopFormData.brand.includes(brand)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />} 
-                                  label={brand} 
-                                  sx={{ 
-                                    marginTop: -1.5,
-                                    marginLeft: 0 
-                                  }} 
-                                />
-                              </Box>
+                                control={
+                                  <Checkbox
+                                    id={brand}
+                                    value={brand}
+                                    onChange={(e) => handleCheckboxChange(e, 'brand')}
+                                    checked={laptopFormData.brand.includes(brand)}
+                                    sx={{
+                                      color: 'white',
+                                      '&.Mui-checked': { color: 'white' },
+                                    }}
+                                  />
+                                }
+                                label={<Typography color="white" variant="body2">{brand}</Typography>}
+                              />
                             ))}
                           </Box>
+                        </Box>
+
+                        {/* Specifications */}
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 2,
+                            flex: { xs: '1 1 auto', md: '2 0 60%' },
+                          }}
+                        >
+                          {/* Price Range */}
                           <Box
                             sx={{
-                              backgroundColor: 'transparent',
-                              height: 'cover',
-                              width: '60%',
-                              display: 'flex',
-                              flexWrap: 'wrap',
-                              boxSizing: 'border-box',
-                              marginTop: 2
+                              backgroundColor: 'rgba(0,0,0,0.1)',
+                              borderRadius: 5,
+                              p: 2,
                             }}
                           >
-                            <Box sx={{ display: 'flex', gap: 2, mb: 1, margin: 1 }}>
-                              {/* Min-Max Price Slider */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginBottom: 20, borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>Price Range</Typography>
-                                <Slider
-                                  value={priceRange}
-                                  onChange={handlePriceChange}
-                                  valueLabelDisplay="auto"
-                                  min={0}
-                                  max={500000}
-                                  sx={{ color: 'white', width: '70%' }}
-                                />
-                                <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 1 }}>
-                                  <TextField
-                                    name='min'
-                                    value={priceRange[0]}
-                                    onChange={(e) => handlePriceChange(e, [Number(e.target.value), priceRange[1]])}
-                                    sx={{ 
-                                      '& .MuiOutlinedInput-root': {
-                                        '& fieldset': {
-                                          borderColor: 'transparent', // Border color
-                                        },
-                                        '&:hover fieldset': {
-                                          borderColor: 'transparent', // Hover border color
-                                        }
-                                      },
-                                      width: '40%', 
-                                      background: 'white', 
-                                      height: 30,
-                                      borderRadius: 5,
-                                      input: {
-                                        textAlign: 'center',
-                                        color: 'black', // Text color inside the TextField
-                                        padding: '4px 8px', // Adjust padding for a more compact size
-                                        fontSize: '0.85rem'
-                                      },
-                                    }}
-                                  />
-                                  <TextField
-                                    name='max'
-                                    value={priceRange[1]}
-                                    onChange={(e) => handlePriceChange(e, [priceRange[0], Number(e.target.value)])}
-                                    size="small"
-                                    sx={{
-                                      '& .MuiOutlinedInput-root': {
-                                        '& fieldset': {
-                                          borderColor: 'transparent', // Border color
-                                        },
-                                        '&:hover fieldset': {
-                                          borderColor: 'transparent', // Hover border color
-                                        }
-                                      },
-                                      width: '40%', 
-                                      background: 'white', 
-                                      height: 30,
-                                      borderRadius: 5,
-                                      input: {
-                                        textAlign: 'center',
-                                        color: 'black', // Text color inside the TextField
-                                        padding: '4px 8px', // Adjust padding for a more compact size
-                                        fontSize: '0.85rem'
-                                      },
-                                    }}
-                                  />
-                                </Box>
-                              </Box>
-                              
-                              {/* RAM Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>RAM</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
-                                  {["8 GB", "4 GB", "16 GB", "32 GB", "2 GB", "18 GB", "48 GB", "64 GB", "12 GB", "36 GB", "24 GB"].map((laptopRamOption) => (
-                                    <FormControlLabel
-                                      key={laptopRamOption}
-                                      value={laptopRamOption}
-                                      control={<Checkbox id={laptopRamOption} value={laptopRamOption} onChange={(e) => handleCheckboxChange(e, 'selectedRams')} checked={laptopFormData.selectedRams.includes(laptopRamOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{laptopRamOption}</Typography>}
-                                      sx={{
-                                        width: 105,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 0,
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
-                              </Box>
-                            </Box>
-
-                            <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
-                              {/* SSD Storage Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginLeft: 1, marginBottom: 48, marginTop: -20, borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>SSD SSD</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1}}>
-                                  {["512 GB", "256 GB", "1 TB", "8 GB", "128 GB", "2 TB"].map((ssdOption, index) => (
-                                    <FormControlLabel
-                                      key={ssdOption}
-                                      value={ssdOption}
-                                      control={<Checkbox id={ssdOption} value={ssdOption} onChange={(e) => handleCheckboxChange(e, 'selectedSSD')} checked={laptopFormData.selectedSSD.includes(ssdOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{ssdOption}</Typography>}
-                                      sx={{
-                                        width: 108,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 1,
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
-                              </Box>
-                              
-                              {/* Graphics Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginRight: 1, borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>Graphics Card Series</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
-                                  {["Intel Integrated", "AMD Radeon", "NVIDIA GeForce RTX", "AMD Radeon RDNA 3", "Arc A370M", "Qualcomm Adreno", "NVIDIA Quadro", "MediaTek Integrated", "Qualcomm", "NVIDIA GeForce", "NVIDIA GeForce GTX"].map((graphicsOption) => (
-                                    <FormControlLabel
-                                      key={graphicsOption}
-                                      value={graphicsOption}
-                                      control={<Checkbox id={graphicsOption} value={graphicsOption} onChange={(e) => handleCheckboxChange(e, 'selectedGraphics')} checked={laptopFormData.selectedGraphics.includes(graphicsOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{graphicsOption}</Typography>}
-                                      sx={{
-                                        width: 108,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 1,
-                                        marginBottom: 1
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
-                              </Box>
-                            </Box>
-
-                            <Box sx={{ display: 'flex', gap: 2 }}>
-                              {/* Screen Size Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginLeft: 1, marginTop: -48, marginBottom: 16, borderRadius: 5, width: 220 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>Screen Size</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1, marginBottom: 1 }}>
-                                  {["Below 12 inch", "12 inch - 12.9 inch", "13 inch - 13.9 inch", "14 inch - 14.9 inch", "15 inch - 15.9 inch", "16 inch - 17.9 inch", "18 inch - 20 inch", "Above 20 inch"].map((laptopScreenOption) => (
-                                    <FormControlLabel
-                                      key={laptopScreenOption}
-                                      value={laptopScreenOption}
-                                      control={<Checkbox id={laptopScreenOption} value={laptopScreenOption} onChange={(e) => handleCheckboxChange(e, 'selectedScreen')} checked={laptopFormData.selectedScreen.includes(laptopScreenOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{laptopScreenOption}</Typography>}
-                                      sx={{
-                                        width: 104,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 1,
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
-                              </Box>
-                            </Box>    
-                              {/* Graphics Memory Selection */}
-                            <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginLeft: 1, marginRight: -1, marginBottom: 4, borderRadius: 5, marginTop: -15 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>Graphics Memory</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1, marginBottom: 1 }}>
-                                  {["128 MB", "512 MB", "1 GB", "2 GB", "3 GB", "4 GB", "Integrated Graphics", "6 GB", "8 GB", "16 GB", "12 GB"].map((graphicsMemOption) => (
-                                    <FormControlLabel
-                                      key={graphicsMemOption}
-                                      value={graphicsMemOption}
-                                      control={<Checkbox id={graphicsMemOption} value={graphicsMemOption} onChange={(e) => handleCheckboxChange(e, 'selectedGraphicsMemory')} checked={laptopFormData.selectedGraphicsMemory.includes(graphicsMemOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{graphicsMemOption}</Typography>}
-                                      sx={{
-                                        width: 105,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 1,
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
-                              </Box>
-                              {/* Hard Disk Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginLeft: 1, marginRight: 1, marginBottom: 15, borderRadius: 5 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>HDD Storage</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1, marginBottom: 1 }}>
-                                  {["1 TB", "256 GB", "500 GB"].map((hddOption) => (
-                                    <FormControlLabel
-                                      key={hddOption}
-                                      value={hddOption}
-                                      control={<Checkbox id={hddOption} value={hddOption} onChange={(e) => handleCheckboxChange(e, 'selectedHDD')} checked={laptopFormData.selectedHDD.includes(hddOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{hddOption}</Typography>}
-                                      sx={{
-                                        width: 100,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 1,
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
-                              </Box>
-                            </Box>
-                            <Box sx={{ display: 'flex', gap: 2}}>
-                              <Box sx={{ flex: 1, backgroundColor: 'transparent', marginLeft: 1, marginTop: -20, borderRadius: 5 }}>
-                              </Box>
-                              {/* Processor Brand Selection */}
-                              <Box sx={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)', maxHeight: 200, marginTop: -15, borderRadius: 5, marginRight: 1 }}>
-                                <Typography color="white" variant="body2" sx={{ marginTop: 1 }}>Processor Brand</Typography>
-                                <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1}}>
-                                  {["AMD", "Intel", "Apple", "Qualcomm", "MediaTek"].map((processorOption) => (
-                                    <FormControlLabel
-                                      key={processorOption}
-                                      value={processorOption}
-                                      control={<Checkbox id={processorOption} value={processorOption} onChange={(e) => handleCheckboxChange(e, 'selectedProcessor')} checked={laptopFormData.selectedProcessor.includes(processorOption)} sx={{ color: 'white', '&.Mui-checked': { color: 'white' }, }} />}
-                                      label={<Typography color="white" variant="body2">{processorOption}</Typography>}
-                                      sx={{
-                                        width: 100,  // Each item takes up half the row width
-                                        margin: 0,     // Removes extra margin to align neatly
-                                        marginTop: 1,
-                                        marginLeft: -0.8
-                                      }}
-                                    />
-                                  ))}
-                                </FormGroup>
-                              </Box>
+                            <Typography variant="body2" sx={{ marginBottom: 1 }} color='white'>
+                              Price Range
+                            </Typography>
+                            <Slider
+                              value={priceRange}
+                              onChange={handlePriceChange}
+                              valueLabelDisplay="auto"
+                              min={0}
+                              max={300000}
+                              sx={{ color: 'white', width: '70%' }}
+                            />
+                            <Box sx={{ display: 'flex', justifyContent: 'space-around', gap: 2 }}>
+                              <TextField
+                                name="min"
+                                value={priceRange[0]}
+                                onChange={(e) => handlePriceChange(e, [Number(e.target.value), priceRange[1]])}
+                                size="small"
+                                sx={{
+                                  backgroundColor: 'white',
+                                  borderRadius: 5,
+                                  width: '40%',
+                                  input: { textAlign: 'center', fontSize: '0.85rem' },
+                                }}
+                              />
+                              <TextField
+                                name="max"
+                                value={priceRange[1]}
+                                onChange={(e) => handlePriceChange(e, [priceRange[0], Number(e.target.value)])}
+                                size="small"
+                                sx={{
+                                  backgroundColor: 'white',
+                                  borderRadius: 5,
+                                  width: '40%',
+                                  input: { textAlign: 'center', fontSize: '0.85rem' },
+                                }}
+                              />
                             </Box>
                           </Box>
+
+                          {/* RAM Selection */}
+                          <Box
+                            sx={{
+                              backgroundColor: 'rgba(0,0,0,0.1)',
+                              borderRadius: 5,
+                              p: 2,
+                            }}
+                          >
+                            <Typography variant="body2" sx={{ marginBottom: 1 }} color='white'>
+                              RAM
+                            </Typography>
+                            <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+                              {["8 GB", "4 GB", "16 GB", "32 GB", "2 GB", "18 GB", "48 GB", "64 GB", "12 GB", "36 GB", "24 GB"].map((laptopRamOption) => (
+                                <FormControlLabel
+                                  key={laptopRamOption}
+                                  control={
+                                    <Checkbox
+                                      id={laptopRamOption}
+                                      value={laptopRamOption}
+                                      onChange={(e) => handleCheckboxChange(e, 'selectedRams')}
+                                      checked={laptopFormData.selectedRams.includes(laptopRamOption)}
+                                      sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                    />
+                                  }
+                                  label={<Typography color="white" variant="body2">{laptopRamOption}</Typography>}
+                                  sx={{
+                                    width: 100, // Each item takes up half the row width
+                                    margin: 0, // Removes extra margin to align neatly
+                                  }}
+                                />
+                              ))}
+                            </FormGroup>
+                          </Box>
+
+                          {/* SSD Storage Selection */}
+                          <Box
+                            sx={{
+                              backgroundColor: 'rgba(0,0,0,0.1)',
+                              borderRadius: 5,
+                              p: 2,
+                            }}
+                          >
+                            <Typography variant="body2" sx={{ marginBottom: 1 }} color='white'>
+                              SSD Storage
+                            </Typography>
+                            <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+                              {["512 GB", "256 GB", "1 TB", "128 GB", "2 TB"].map((ssdOption) => (
+                                <FormControlLabel
+                                  key={ssdOption}
+                                  control={
+                                    <Checkbox
+                                      id={ssdOption}
+                                      value={ssdOption}
+                                      onChange={(e) => handleCheckboxChange(e, 'selectedSSD')}
+                                      checked={laptopFormData.selectedSSD.includes(ssdOption)}
+                                      sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                    />
+                                  }
+                                  label={<Typography color="white" variant="body2">{ssdOption}</Typography>}
+                                  sx={{
+                                    width: 100, // Each item takes up half the row width
+                                    margin: 0, // Removes extra margin to align neatly
+                                  }}
+                                />
+                              ))}
+                            </FormGroup>
+                          </Box>
+
+                          {/* Graphics Selection */}
+                          <Box
+                            sx={{
+                              backgroundColor: 'rgba(0,0,0,0.1)',
+                              borderRadius: 5,
+                              p: 2,
+                            }}
+                          >
+                            <Typography variant="body2" sx={{ marginBottom: 1 }} color='white'>
+                              Graphics Card Series
+                            </Typography>
+                            <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+                              {["Intel Integrated", "AMD Radeon", "NVIDIA GeForce RTX", "AMD Radeon RDNA 3", "Qualcomm Adreno"].map((graphicsOption) => (
+                                <FormControlLabel
+                                  key={graphicsOption}
+                                  control={
+                                    <Checkbox
+                                      id={graphicsOption}
+                                      value={graphicsOption}
+                                      onChange={(e) => handleCheckboxChange(e, 'selectedGraphics')}
+                                      checked={laptopFormData.selectedGraphics.includes(graphicsOption)}
+                                      sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                    />
+                                  }
+                                  label={<Typography color="white" variant="body2">{graphicsOption}</Typography>}
+                                  sx={{
+                                    width: 100, // Each item takes up half the row width
+                                    margin: 0, // Removes extra margin to align neatly
+                                  }}
+                                />
+                              ))}
+                            </FormGroup>
+                          </Box>
+
+                          {/* Screen Size Selection */}
+                          <Box
+                            sx={{
+                              backgroundColor: 'rgba(0,0,0,0.1)',
+                              borderRadius: 5,
+                              p: 2,
+                            }}
+                          >
+                            <Typography variant="body2" sx={{ marginBottom: 1 }} color='white'>
+                              Screen Size
+                            </Typography>
+                            <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+                              {["Below 12 inch", "12 inch - 12.9 inch", "13 inch - 13.9 inch", "14 inch - 14.9 inch", "15 inch - 15.9 inch", "16 inch - 17.9 inch", "18 inch - 20 inch", "Above 20 inch"].map((laptopScreenOption) => (
+                                <FormControlLabel
+                                  key={laptopScreenOption}
+                                  control={
+                                    <Checkbox
+                                      id={laptopScreenOption}
+                                      value={laptopScreenOption}
+                                      onChange={(e) => handleCheckboxChange(e, 'selectedScreen')}
+                                      checked={laptopFormData.selectedScreen.includes(laptopScreenOption)}
+                                      sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                    />
+                                  }
+                                  label={<Typography color="white" variant="body2">{laptopScreenOption}</Typography>}
+                                  sx={{
+                                    width: 100, // Each item takes up half the row width
+                                    margin: 0, // Removes extra margin to align neatly
+                                  }}
+                                />
+                              ))}
+                            </FormGroup>
+                          </Box>
+
+                          {/* Graphics Memory Selection */}
+                          <Box
+                            sx={{
+                              backgroundColor: 'rgba(0,0,0,0.1)',
+                              borderRadius: 5,
+                              p: 2,
+                            }}
+                          >
+                            <Typography variant="body2" sx={{ marginBottom: 1 }} color='white'>
+                              Graphics Memory
+                            </Typography>
+                            <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+                              {["128 MB", "512 MB", "1 GB", "2 GB", "3 GB", "4 GB", "6 GB", "8 GB", "16 GB"].map((graphicsMemOption) => (
+                                <FormControlLabel
+                                  key={graphicsMemOption}
+                                  control={
+                                    <Checkbox
+                                      id={graphicsMemOption}
+                                      value={graphicsMemOption}
+                                      onChange={(e) => handleCheckboxChange(e, 'selectedGraphicsMemory')}
+                                      checked={laptopFormData.selectedGraphicsMemory.includes(graphicsMemOption)}
+                                      sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                    />
+                                  }
+                                  label={<Typography color="white" variant="body2">{graphicsMemOption}</Typography>}
+                                  sx={{
+                                    width: 100, // Each item takes up half the row width
+                                    margin: 0, // Removes extra margin to align neatly
+                                  }}
+                                />
+                              ))}
+                            </FormGroup>
+                          </Box>
+
+                          {/* Hard Disk Selection */}
+                          <Box
+                            sx={{
+                              backgroundColor: 'rgba(0,0,0,0.1)',
+                              borderRadius: 5,
+                              p: 2,
+                            }}
+                          >
+                            <Typography variant="body2" sx={{ marginBottom: 1 }} color='white'>
+                              HDD Storage
+                            </Typography>
+                            <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+                              {["1 TB", "256 GB", "500 GB"].map((hddOption) => (
+                                <FormControlLabel
+                                  key={hddOption}
+                                  control={
+                                    <Checkbox
+                                      id={hddOption}
+                                      value={hddOption}
+                                      onChange={(e) => handleCheckboxChange(e, 'selectedHDD')}
+                                      checked={laptopFormData.selectedHDD.includes(hddOption)}
+                                      sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                    />
+                                  }
+                                  label={<Typography color="white" variant="body2">{hddOption}</Typography>}
+                                  sx={{
+                                    width: 100, // Each item takes up half the row width
+                                    margin: 0, // Removes extra margin to align neatly
+                                  }}
+                                />
+                              ))}
+                            </FormGroup>
+                          </Box>
+
+                          {/* Processor Brand Selection */}
+                          <Box
+                            sx={{
+                              backgroundColor: 'rgba(0,0,0,0.1)',
+                              borderRadius: 5,
+                              p: 2,
+                            }}
+                          >
+                            <Typography variant="body2" sx={{ marginBottom: 1 }} color='white'>
+                              Processor Brand
+                            </Typography>
+                            <FormGroup row sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+                              {["AMD", "Intel", "Apple", "Qualcomm", "MediaTek"].map((processorOption) => (
+                                <FormControlLabel
+                                  key={processorOption}
+                                  control={
+                                    <Checkbox
+                                      id={processorOption}
+                                      value={processorOption}
+                                      onChange={(e) => handleCheckboxChange(e, 'selectedProcessors')}
+                                      checked={laptopFormData.selectedProcessor.includes(processorOption)}
+                                      sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+                                    />
+                                  }
+                                  label={<Typography color="white" variant="body2">{processorOption}</Typography>}
+                                  sx={{
+                                    width: 100, // Each item takes up half the row width
+                                    margin: 0, // Removes extra margin to align neatly
+                                  }}
+                                />
+                              ))}
+                            </FormGroup>
+                          </Box>
+                        </Box>
                       </Box>
                     </FormControl>
                   )}
@@ -801,7 +976,7 @@ function Suggest() {
                     padding: '10px 30px',
                     fontWeight: 'bold',
                     fontSize: '18px',
-                    marginBottom: 3,
+                    marginTop: 3,
                   }}
                 >
                   Suggest

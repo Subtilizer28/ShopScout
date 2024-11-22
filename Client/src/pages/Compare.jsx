@@ -188,6 +188,7 @@ function Compare() {
                         }}
                         required
                     />
+                    <br />
                     <Button
                         type="submit"
                         variant="contained"

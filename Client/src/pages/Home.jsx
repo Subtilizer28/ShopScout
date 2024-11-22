@@ -58,8 +58,8 @@ function Home({ onPageChange }) {
                                 sx={{
                                     backgroundColor: 'rgba(0,0,0,0.1)',
                                     color: 'white',
-                                    height: '60px',
-                                    width: '200px',
+                                    height: '60%',
+                                    width: {md: '60%', xs: '70%'},
                                     borderRadius: '20px',
                                     padding: '10px 30px',
                                     fontWeight: 'bold',
@@ -73,8 +73,8 @@ function Home({ onPageChange }) {
                                 sx={{
                                     backgroundColor: 'rgba(0,0,0,0.1)',
                                     color: 'white',
-                                    height: '60px',
-                                    width: '200px',
+                                    height: '60%',
+                                    width: {md: '60%', xs: '70%'},
                                     borderRadius: '20px',
                                     padding: '10px 30px',
                                     fontWeight: 'bold',
@@ -89,8 +89,8 @@ function Home({ onPageChange }) {
                                 sx={{
                                     backgroundColor: 'rgba(0,0,0,0.1)',
                                     color: 'white',
-                                    height: '60px',
-                                    width: '200px',
+                                    height: '60%',
+                                    width: {md: '60%', xs: '70%'},
                                     borderRadius: '20px',
                                     padding: '10px 30px',
                                     fontWeight: 'bold',
@@ -104,8 +104,8 @@ function Home({ onPageChange }) {
                                 sx={{
                                     backgroundColor: 'rgba(0,0,0,0.1)',
                                     color: 'white',
-                                    height: '60px',
-                                    width: '200px',
+                                    height: '60%',
+                                    width: {md: '60%', xs: '70%'},
                                     borderRadius: '20px',
                                     padding: '10px 30px',
                                     fontWeight: 'bold',
