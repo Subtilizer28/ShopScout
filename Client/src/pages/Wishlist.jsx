@@ -28,7 +28,7 @@ const getMultiCookie = (name) => {
   const count = countMatch ? parseInt(countMatch[2], 10) : 0;
 
   if (count === 0) return null;
-
+  
   const chunks = [];
   for (let i = 0; i < count; i++) {
       const chunkMatch = document.cookie.match(new RegExp(`(^| )${name}_${i}=([^;]+)`));
@@ -59,9 +59,13 @@ const Wishlist = () => {
     setMultiCookie('wishlist', updatedWishlist, 7); // Expires in 7 days  
   };
 
-
+  const [wishlistEmpty, setWishlistEmpty] = useState(false)
+  
   useEffect(() => {
     const wishlistData = getMultiCookie('wishlist');
+    if(wishlistData == null) {
+      setWishlistEmpty(true);
+    }
     setWishlist(wishlistData);
   }, []);
 
@@ -71,62 +75,85 @@ const Wishlist = () => {
         display: 'flex',
         flexWrap: 'wrap',
         gap: 2,
-        padding: 2,
-        marginLeft: 10,
-        marginRight: 10
+        height: '100%'
       }}
     >
-      {wishlist.map((item, index) => (
-        <Box key={index} 
-            sx={{ 
-                width: 200, 
-                minHeight: 355,
-                marginBottom: 2
-            }}
+      {wishlistEmpty ? (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%', // Ensure full width
+            textAlign: 'center', // Center the text itself
+          }}
         >
-            <Card sx={{
-                backgroundColor: 'transparent', 
-                borderRadius: "25px", 
-                boxShadow: 5, 
-                color: 'white',
-                minHeight: 355,
-            }}>
-                <Box
-                    component="img"
-                    src={item.image}
-                    alt={item.title}
-                    sx={{
-                        height: 140,
-                        width: '100%',
-                    }}
-                />
-                <CardContent>
-                <Typography variant="h6">
-                    {item.title.length > 40 ? `${item.title.slice(0, 40)}...` : item.title}
-                </Typography>
-                <Typography variant="body2">
-                    <Chip
-                        label="View Product"
-                        component="a"
-                        href={item.link}
-                        clickable
+          <Box
+            sx={{
+              color: '#fff', // White text
+              fontWeight: 'bold',
+              fontSize: '2.5rem', // Large text size
+            }}
+          >
+            Wishlist is empty. Add some Products!!
+          </Box>
+        </Box>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 80, marginRight: 80 }}>
+          {wishlist.map((item, index) => (
+            <Box key={index} 
+                sx={{ 
+                    width: 200, 
+                    minHeight: 355,
+                    marginBottom: 2,
+                    padding: 1
+                }}
+            >
+                <Card sx={{
+                    backgroundColor: 'transparent', 
+                    borderRadius: "25px", 
+                    boxShadow: 5, 
+                    color: 'white',
+                    minHeight: 355,
+                }}>
+                    <Box
+                        component="img"
+                        src={item.image}
+                        alt={item.title}
                         sx={{
-                            backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                            color: 'white',
-                            marginTop: 1,
-                            padding: '2px 10px',
+                            height: 140,
+                            width: '100%',
                         }}
                     />
-                </Typography>
-                <FavoriteIcon
-                        onClick={() => toggleWishlist(item.name, item.image, item.link)}
-                        color={getMultiCookie('wishlist')?.some(item => item.link === item.link) ? 'error' : 'disabled'}
-                        sx={{ cursor: 'pointer', marginTop: 1, marginLeft: 'auto', marginRight: 'auto' }}
-                      />
-                </CardContent>
-          </Card>
-        </Box>
-      ))}
+                    <CardContent>
+                    <Typography variant="h6">
+                        {item.title.length > 40 ? `${item.title.slice(0, 40)}...` : item.title}
+                    </Typography>
+                    <Typography variant="body2">
+                        <Chip
+                            label="View Product"
+                            component="a"
+                            href={item.link}
+                            clickable
+                            sx={{
+                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                color: 'white',
+                                marginTop: 1,
+                                padding: '2px 10px',
+                            }}
+                        />
+                    </Typography>
+                    <FavoriteIcon
+                            onClick={() => toggleWishlist(item.name, item.image, item.link)}
+                            color={getMultiCookie('wishlist')?.some(item => item.link === item.link) ? 'error' : 'disabled'}
+                            sx={{ cursor: 'pointer', marginTop: 1, marginLeft: 'auto', marginRight: 'auto' }}
+                    />
+                  </CardContent>
+              </Card>
+            </Box>
+          ))}
+        </div>
+      )}
     </Box>
   );
 };
