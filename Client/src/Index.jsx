@@ -69,9 +69,9 @@ function Index() {
                     width: '100px',
                     height: '100px',
                     borderRadius: '50%',
-                    boxShadow: '0 0 60px 20px rgba(5, 149, 135, 1)', // Neon glow effect
+                    boxShadow: '0 0 100px 30px rgba(5, 255, 200, 1)', // Stronger and larger neon glow
                     zIndex: -1, // Place behind other elements 
-                    filter: "blur(50px)",// Soft neon glow
+                    filter: "blur(60px)", // Softer and more pronounced glow
                     pointerEvents: 'none', // Make sure it doesn't interfere with mouse events
                 }}
             />
