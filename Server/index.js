@@ -247,6 +247,7 @@ app.post('/api/psuggest', async (req, res) => {
             flipkartUrl = flipkartUrl+`&p%5B%5D=facets.clock_speed%255B%255D%3D${clock}`
         })
     }
+    console.log(flipkartUrl)
     // Building Amazon URL
     
     
@@ -273,8 +274,7 @@ app.post('/api/psuggest', async (req, res) => {
             tagsToRemove.forEach(tag => tag.remove());
         });
         const flipkartCleanedHtml = await flipkartpage.content();
-        console.log(flipkartCleanedHtml);
-        const description = 'Find the top 3 all different best price-to-specs ratio mobile phone. phones shouldnt be same and must be diferent. if there are less than 3 phones then only output those phones. if there are devices in the result then add them as well but max will be 3. The output should be in this format: [product_name, product_ram, product_internal_storage, product_battery_capacity, product_price, product_flipkart_link, product_image_src]. do not include any other information in this. ignore any mobile color or any other info. for product link add https://flipkart.com as prefix. some devices especially apple devices wont have some info like ram, battery etc, dont set it to null, set ram , battery, etc to "NA"'
+        const description = 'Find the top 3 all different best price-to-specs ratio mobile phone. phones shouldnt be same and must be diferent. if there are less than 3 phones then only output those phones. if there are devices in the result then add them as well but max will be 3. The output should be in this format: [product_name, product_ram, product_internal_storage, product_battery_capacity, product_price, product_flipkart_link, product_image_src]. do not include any other information in this. Do not include "json" or new lines in the response. Only return the main array. ignore any mobile color or any other info. for product link add https://flipkart.com as prefix. some devices especially apple devices wont have some info like ram, battery etc, dont set it to null, set ram , battery, etc to "NA"'
         const flipkartprompt = `
             You are tasked with extracting specific information from the following text content: ${flipkartCleanedHtml}. 
             Only extract the information that directly matches the provided description: ${description}.
@@ -288,19 +288,18 @@ app.post('/api/psuggest', async (req, res) => {
             res.send("noproducts")
         }
         else {
-            const flipkartproductsArray = flipkartresult.match(/\[.*?\]/g);
+            //const flipkartproductsArray = flipkartresult.match(/\[.*?\]/g);
+            const flipkartproductsArray = JSON.parse(flipkartresult);
             const flipkartparsedProducts = flipkartproductsArray.map(productString => {
-                const regex = /\[(.*?), (\d+ GB|NA), (\d+ GB|NA), (\d+ mAh|NA), (₹[\d,]+), (https?:\/\/[^\s\]]+), (https?:\/\/[^\s\]]+)\]/;
-                const match = productString.match(regex);
-                if (match) {
+                if (productString) {
                     return {
-                        productName: match[1],
-                        ram: match[2],
-                        internalStorage: match[3],
-                        batteryCapacity: match[4],
-                        price: match[5],
-                        flipkartDirectUrl: match[6],
-                        imageUrl: match[7]
+                        productName: productString[0],
+                        ram: productString[1],
+                        internalStorage: productString[2],
+                        batteryCapacity: productString[3],
+                        price: productString[4],
+                        flipkartDirectUrl: productString[5],
+                        imageUrl: productString[6]
                     }; 
                 } else {
                     return null; // In case of no match, return null or handle error as needed
@@ -403,7 +402,7 @@ app.post('/api/lsuggest', async (req, res) => {
             tagsToRemove.forEach(tag => tag.remove());
         });
         const flipkartCleanedHtml = await flipkartpage.content();
-        const description = 'Find the top 3 all different best price-to-specs ratio laptops. laptops shouldnt be same and must be diferent. if there are less than 3 laptops then only output those phones. if there are devices in the result then add them as well but max will be 3. The output should be in this format: [product_name, product_ram, product_graphics_card, product_processor, product_screen_size, product_price, product_flipkart_link, product_image_src]. do not include any other information in this. ignore any laptop color or any other info. for product link add https://flipkart.com as prefix. some devices wont have some info like ram, graphics etc, dont set it to null, set ram , graphics, other etc to "NA"'
+        const description = 'Find the top 3 all different best price-to-specs ratio laptops. laptops shouldnt be same and must be diferent. if there are less than 3 laptops then only output those laptops. if there are devices in the result then add them as well but max will be 3. The output should be in this format: [product_name, product_ram, product_graphics_card, product_processor, product_screen_size, product_price, product_flipkart_link, product_image_src]. do not include any other information in this. Do not include "json" or new lines in the response. Only return the main array. ignore any laptop color or any other info. for product link add https://flipkart.com as prefix. some devices wont have some info like ram, graphics etc, dont set it to null, set ram , graphics, other etc to "NA"'
         const flipkartprompt = `
             You are tasked with extracting specific information from the following text content: ${flipkartCleanedHtml}. 
             Only extract the information that directly matches the provided description: ${description}.
@@ -417,20 +416,19 @@ app.post('/api/lsuggest', async (req, res) => {
             res.send("noproducts")
         }
         else {
-            const flipkartproductsArray = flipkartresult.match(/\[.*?\]/g);
+            //const flipkartproductsArray = flipkartresult.match(/\[.*?\]/g);
+            const flipkartproductsArray = JSON.parse(flipkartresult);
             const flipkartparsedProducts = flipkartproductsArray.map(productString => {
-                const regex = /\[([^,]+), (\d+ GB|NA), ([^,]+|NA), ([^,]+|NA), ([^,]+|NA), (₹[\d,]+), (https?:\/\/[^\s\]]+), (https?:\/\/[^\s\]]+)\]/;
-                const match = productString.match(regex);
-                if (match) {
+                if (productString) {
                     return {
-                        productName: match[1],
-                        ram: match[2],
-                        graphicsCard: match[3],
-                        processor: match[4],
-                        screenSize: match[5],
-                        price: match[6],
-                        flipkartDirectUrl: match[7],
-                        imageUrl: match[8]
+                        productName: productString[0],
+                        ram: productString[1],
+                        graphicsCard: productString[2],
+                        processor: productString[3],
+                        screenSize: productString[4],
+                        price: productString[5],
+                        flipkartDirectUrl: productString[6],
+                        imageUrl: productString[7]
                     }; 
                 } else {
                     return null; // In case of no match, return null or handle error as needed

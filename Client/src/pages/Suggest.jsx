@@ -943,7 +943,7 @@ function Suggest() {
                                     <Checkbox
                                       id={processorOption}
                                       value={processorOption}
-                                      onChange={(e) => handleCheckboxChange(e, 'selectedProcessors')}
+                                      onChange={(e) => handleCheckboxChange(e, 'selectedProcessor')}
                                       checked={laptopFormData.selectedProcessor.includes(processorOption)}
                                       sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
                                     />
