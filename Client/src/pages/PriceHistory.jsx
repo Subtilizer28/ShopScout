@@ -103,8 +103,8 @@ function PriceHistory() {
         setSubmitted(true);
         setLoading(true);
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND}/api/phistory`, { inputValue });
-            console.error(response)
+            const url = inputValue.split('?pid=')[0]
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND}/api/phistory`, { url });
             const { dates, prices, title, image, currentprice } = response.data;
             setTitle(title)
             setProdImage(image)
@@ -173,14 +173,16 @@ function PriceHistory() {
                             height: 400,
                             margin: 5,
                             display: 'flex',
+                            flexDirection: {md: 'row', xs: 'column' }
                         }}>
                             <Box sx={{
-                                width: '20%',
+                                width: { xs: '90%', md: '20%' },
                                 margin: 1,
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
                                 borderRadius: 5,
+                                padding: 1,
                                 backgroundColor: 'rgba(0,0,0,0.1)'
                             }}>
                                 <br />
@@ -246,13 +248,14 @@ function PriceHistory() {
                                 />
                             </Box>
                             <Box sx={{
-                                width: '30%',
+                                width: {md: '30%', xs: '90%'},
                                 background: 'white',
                                 margin: 1,
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
                                 borderRadius: 10,
+                                padding: 1,
                                 backgroundColor: 'rgba(0,0,0,0.1)'
                             }}>
                                <Box sx={{
@@ -283,12 +286,12 @@ function PriceHistory() {
                             <Box sx={{
                                 backgroundColor: 'rgba(0,0,0,0.1)',
                                 alignItems: 'right',
-                                width: '50%',
+                                width: {md: '50%', xs: '90%'},
                                 height: 'cover',
                                 margin: 1,
                                 display: 'flex',
                                 justifyContent: 'center',
-                                padding: 3,
+                                padding: 1,
                                 borderRadius: 5,
                             }}>
                                 <Line

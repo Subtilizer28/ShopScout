@@ -22,7 +22,6 @@ const handleRedirects = async (url) => {
     let browser;
     try {
         browser = await puppeteer.launch({
-            executablePath: '/usr/bin/chromium-browser',
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
@@ -44,11 +43,11 @@ app.post('/api/test', (req,res) => {
 })
 
 app.post('/api/phistory', async (req, res) => {
-    let { inputValue } = req.body;
+    let { url } = req.body;
 
-    if (inputValue.startsWith('https://dl.flipkart.com/')) {
+    if (url.startsWith('https://dl.flipkart.com/')) {
         try {
-            inputValue = await handleRedirects(inputValue);
+            url = await handleRedirects(url);
             console.log(`Redirected`);
         } catch (error) {
             return res.status(500).json({ error: "Redirect error for Flipkart URL" });
@@ -63,7 +62,7 @@ app.post('/api/phistory', async (req, res) => {
         });
         const page = await browser.newPage();
 
-        await page.goto(`https://pricebefore.com/search/?category=all&q=${inputValue}`, { 
+        await page.goto(`https://pricebefore.com/search/?category=all&q=${url}`, { 
             waitUntil: 'networkidle0',
             timeout: 60000
         });
@@ -274,6 +273,7 @@ app.post('/api/psuggest', async (req, res) => {
             tagsToRemove.forEach(tag => tag.remove());
         });
         const flipkartCleanedHtml = await flipkartpage.content();
+        console.log(flipkartCleanedHtml);
         const description = 'Find the top 3 all different best price-to-specs ratio mobile phone. phones shouldnt be same and must be diferent. if there are less than 3 phones then only output those phones. if there are devices in the result then add them as well but max will be 3. The output should be in this format: [product_name, product_ram, product_internal_storage, product_battery_capacity, product_price, product_flipkart_link, product_image_src]. do not include any other information in this. ignore any mobile color or any other info. for product link add https://flipkart.com as prefix. some devices especially apple devices wont have some info like ram, battery etc, dont set it to null, set ram , battery, etc to "NA"'
         const flipkartprompt = `
             You are tasked with extracting specific information from the following text content: ${flipkartCleanedHtml}. 

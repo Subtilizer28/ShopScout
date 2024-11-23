@@ -15,6 +15,7 @@ function Home({ onPageChange }) {
                     display: 'flex',
                     flexDirection: { xs: 'column', md: 'row' }, // Column on small screens, row on large
                     overflowY: 'auto',
+                    overflowX: 'hidden',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     width: '100%',
@@ -30,7 +31,7 @@ function Home({ onPageChange }) {
                         padding: { xs: '20px 0', md: '0' },
                     }}>
                         <br />
-                        <Typography variant="h2" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h2" sx={{ color: 'white', fontWeight: 700 }}>
                             SHOPSCOUT
                         </Typography>
                         <br />
