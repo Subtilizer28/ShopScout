@@ -247,7 +247,6 @@ app.post('/api/psuggest', async (req, res) => {
             flipkartUrl = flipkartUrl+`&p%5B%5D=facets.clock_speed%255B%255D%3D${clock}`
         })
     }
-    console.log(flipkartUrl)
     // Building Amazon URL
     
     
