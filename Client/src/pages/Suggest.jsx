@@ -144,9 +144,11 @@ function Suggest() {
           setProducts(fetchedProducts);
         }
       } catch (error) {
-          console.error('Error sending data to server:', error);
+        setLoading(false);  // Set loading to false in case of error
+        setSubmitted(false)
+        setError("An error occurred. Please try again.");
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
     }
     else if(deviceType === 'Laptop') {
@@ -167,9 +169,11 @@ function Suggest() {
           setProducts(fetchedProducts);
         }
       } catch (error) {
-          console.error('Error sending data to server:', error);
+        setLoading(false);  // Set loading to false in case of error
+        setSubmitted(false)
+        setError("An error occurred. Please try again.");
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
     }
   };
