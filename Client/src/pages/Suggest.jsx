@@ -1054,7 +1054,7 @@ function Suggest() {
       {/* Product Cards Section */}
       {!loading && products.length > 0 && (
         <Fade in={!loading}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap', height: '100%', marginTop: 1 }}>
             {products.map((product, index) => (
               <Box key={index} sx={{ minWidth: '300px', flexBasis: '30%', textAlign: 'center' }}>
                 <Card sx={{ backgroundColor: 'transparent', borderRadius: "25px", boxShadow: 5, minHeight: 380 }}>
