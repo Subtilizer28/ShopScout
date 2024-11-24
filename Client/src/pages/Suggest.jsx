@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import {
   Box, Button, CircularProgress, Card, CardContent, Typography, Chip, Fade,
-  Checkbox, Slider, TextField, FormControl, FormControlLabel, FormGroup
+  Checkbox, Slider, TextField, FormControl, FormControlLabel, FormGroup, CardActionArea, CardMedia
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
@@ -190,47 +190,98 @@ function Suggest() {
     }
   };
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+    <Box sx={{ display: 'flex', height: '100%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       
       {/* Specification Selection Section - Hidden when form is submitted */}
       {!submitted && (
         <Fade in={!submitted}>
-          <Box sx={{ textAlign: 'center', marginBottom: 4, width: '100%', maxWidth: '800px' }}>
+          <Box sx={{ textAlign: 'center', height: '100%', marginBottom: 4, width: '100%', maxWidth: '800px'}}>
             {/* Device Type Selection */}
             {!deviceType && (
-              <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, marginBottom: 4, marginTop: 20 }}>
-                <Button 
-                  variant="contained" 
+              <Box sx={{ display: 'flex', height: '100%', justifyContent: 'center', alignItems: 'center', gap: 4, flexDirection: { md: 'row', xs: 'column' } }}>
+                <Card
                   onClick={() => handleDeviceTypeSelect('Phone')}
                   sx={{
+                    width: 200,
+                    height: 250,
+                    borderRadius: '16px',
+                    boxShadow: '0px 4px 20px rgba(0,0,0,0.1)',
                     backgroundColor: 'rgba(0,0,0,0.1)',
-                    color: 'white',
-                    height: '40px',
-                    width: '120px',
-                    borderRadius: '20px',
-                    padding: '10px 30px',
-                    fontWeight: 'bold',
-                    fontSize: '18px'
+                    transition: 'transform 0.3s, box-shadow 0.3s',
+                    '&:hover': {
+                      transform: 'scale(1.1)',
+                      boxShadow: '0px 6px 25px rgba(0,0,0,0.2)',
+                    },
                   }}
                 >
-                  Phone
-                </Button>
-                <Button 
-                  variant="contained" 
+                  <CardActionArea sx={{ height: '100%' }}>
+                    <CardMedia
+                      component="img"
+                      image="/images/phone.png" // Replace with the actual image URL
+                      alt="Phone"
+                      sx={{
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                        height: '160px',
+                        width: '160px',
+                        objectFit: 'contain',
+                        marginBottom: 2,
+                      }}
+                    />
+                    <CardContent>
+                      <Typography
+                        variant="h6"
+                        align="center"
+                        color="white"
+                        fontWeight="bold"
+                      >
+                        Phone
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+
+                <Card
                   onClick={() => handleDeviceTypeSelect('Laptop')}
                   sx={{
+                    width: 200,
+                    height: 250,
+                    borderRadius: '16px',
+                    boxShadow: '0px 4px 20px rgba(0,0,0,0.1)',
                     backgroundColor: 'rgba(0,0,0,0.1)',
-                    color: 'white',
-                    height: '40px',
-                    width: '120px',
-                    borderRadius: '20px',
-                    padding: '10px 30px',
-                    fontWeight: 'bold',
-                    fontSize: '18px'
+                    transition: 'transform 0.3s, box-shadow 0.3s',
+                    '&:hover': {
+                      transform: 'scale(1.1)',
+                      boxShadow: '0px 6px 25px rgba(0,0,0,0.2)',
+                    },
                   }}
                 >
-                  Laptop
-                </Button>
+                  <CardActionArea sx={{ height: '100%' }}>
+                    <CardMedia
+                      component="img"
+                      image="/images/laptop.png" // Replace with the actual image URL
+                      alt="Laptop"
+                      sx={{
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                        height: '160px',
+                        width: '160px',
+                        objectFit: 'contain',
+                        marginBottom: 2,
+                      }}
+                    />
+                    <CardContent>
+                      <Typography
+                        variant="h6"
+                        align="center"
+                        color="white"
+                        fontWeight="bold"
+                      >
+                        Laptop
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
               </Box>
             )}
 
@@ -259,7 +310,7 @@ function Suggest() {
                           color: 'white',
                           mb: 3,
                           fontWeight: 'bold',
-                          marginTop: { xs: 1, sm: 1, md: 1 },
+                          marginTop: { xs: 3, sm: 3, md: 3 },
                         }}
                         gutterBottom
                       >
@@ -601,7 +652,7 @@ function Suggest() {
                           color: 'white',
                           mb: 3,
                           fontWeight: 'bold',
-                          marginTop: { xs: 1, sm: 1, md: 1 },
+                          marginTop: { xs: 3, sm: 3, md: 3 },
                         }}
                         gutterBottom
                       >
@@ -981,6 +1032,7 @@ function Suggest() {
                     fontWeight: 'bold',
                     fontSize: '18px',
                     marginTop: 3,
+                    marginBottom: 3
                   }}
                 >
                   Suggest

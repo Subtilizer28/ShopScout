@@ -182,7 +182,6 @@ function Index() {
             <Box sx={{
                 marginTop: 2,
                 height: 'calc(100vh - 185px)', // Make border transparent
-                maxHeight: 'auto',
                 borderRadius: 5,
                 zIndex: 1, // Keep content above the neon dot
                 position: 'relative', // Set position to relative for the inner glow effect
