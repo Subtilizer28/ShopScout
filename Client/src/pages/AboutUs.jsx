@@ -71,7 +71,7 @@ function About() {
                         key={index}
                         sx={{
                             width: {md: '300px', xs: '230px'},
-                            height: '350px',
+                            height: '370px',
                             textAlign: 'center',
                             borderRadius: 2,
                             backgroundColor: 'rgba(0,0,0,0.1)',
