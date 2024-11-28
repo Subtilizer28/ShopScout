@@ -20,7 +20,6 @@ const pages = ['Home', 'Suggest', 'Compare', 'Wishlist', 'Price History'];
 function Index() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-    // Update the state with the mouse coordinates
     const handleMouseMove = (event) => {
         setMousePosition({
             x: event.clientX,
@@ -39,7 +38,7 @@ function Index() {
     }, []);
     
     const [anchorElNav, setAnchorElNav] = useState(null);
-    const [currentPage, setCurrentPage] = useState('Home'); // By default, Home page is displayed
+    const [currentPage, setCurrentPage] = useState('Home');
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -64,14 +63,14 @@ function Index() {
             <Box
                 sx={{
                     position: 'absolute',
-                    top: `${mousePosition.y - 100}px`, // Offset to center the dot
-                    left: `${mousePosition.x - 100}px`, // Offset to center the dot
+                    top: `${mousePosition.y - 100}px`,
+                    left: `${mousePosition.x - 100}px`,
                     width: '100px',
                     height: '100px',
                     borderRadius: '50%',
-                    boxShadow: '0 0 100px 30px rgba(5, 255, 200, 1)', // Stronger and larger neon glow
-                    zIndex: -1, // Place behind other elements 
-                    filter: "blur(60px)", // Softer and more pronounced glow
+                    boxShadow: '0 0 100px 30px rgba(5, 255, 200, 1)',
+                    zIndex: -1,
+                    filter: "blur(60px)",
                     pointerEvents: 'none', // Make sure it doesn't interfere with mouse events
                 }}
             />
@@ -130,9 +129,9 @@ function Index() {
                             onClose={() => setAnchorElNav(null)}
                             sx={{ 
                                 display: { xs: 'block', md: 'none' },
-                                '& .MuiPaper-root': { // Target the Paper component used in the Menu
-                                    background: 'linear-gradient(90deg, #4b6cb7 0%, #182848 100%);', // Set your desired background color
-                                    color: 'white', // Text color to contrast the background
+                                '& .MuiPaper-root': {
+                                    background: 'linear-gradient(90deg, #4b6cb7 0%, #182848 100%);',
+                                    color: 'white', 
                                 }
                             }}
                         >
@@ -181,14 +180,14 @@ function Index() {
             </AppBar>
             <Box sx={{
                 marginTop: 2,
-                height: 'calc(100vh - 185px)', // Make border transparent
+                height: 'calc(100vh - 185px)',
                 borderRadius: 5,
                 zIndex: 1, // Keep content above the neon dot
-                position: 'relative', // Set position to relative for the inner glow effect
+                position: 'relative',
                 overflowY: 'auto',     // Enables vertical scrolling
                 overflowX: 'hidden',
                 boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                background: 'linear-gradient(90deg, #4b6cb7 0%, #182848 100%)', // Prevent overflow for the glow effecs
+                background: 'linear-gradient(90deg, #4b6cb7 0%, #182848 100%)',
                 '&::-webkit-scrollbar': {
                     width: '12px',
                 },
@@ -197,11 +196,11 @@ function Index() {
                     borderRadius: '10px',
                 },
                 '&::-webkit-scrollbar-thumb': {
-                    background: 'white', // Scrollbar thumb color
+                    background: 'white',
                     borderRadius: '10px', // Pill shape
                 },
                 '&::-webkit-scrollbar-thumb:hover': {
-                    background: '#ccc', // Color on hover
+                    background: '#ccc',
                 },
             }}>
             {renderPage()}</Box>

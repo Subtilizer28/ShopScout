@@ -7,7 +7,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const setMultiCookie = (name, data, days) => {
     const jsonData = JSON.stringify(data);
-    const chunkSize = 3800; // Slightly less than 4 KB to account for encoding and metadata
+    const chunkSize = 3800;
     const chunks = [];
 
     for (let i = 0; i < jsonData.length; i += chunkSize) {
@@ -21,7 +21,6 @@ const setMultiCookie = (name, data, days) => {
         document.cookie = `${name}_${index}=${encodeURIComponent(chunk)}; ${expires}; path=/`;
     });
 
-    // Add metadata for tracking chunks
     document.cookie = `${name}_count=${chunks.length}; path=/`;
 };
 
@@ -125,7 +124,7 @@ function PriceHistory() {
             } else {
                 dates.forEach((date, index) => {
                     const price = prices[index];
-                    if (previousPrice === null || Math.abs(price - previousPrice) > 1) { // Threshold can be adjusted
+                    if (previousPrice === null || Math.abs(price - previousPrice) > 1) {
                         filteredDates.push(date);
                         filteredPrices.push(price);
                         previousPrice = price;
@@ -147,7 +146,7 @@ function PriceHistory() {
                 ],
             });
         } catch (error) {
-            setLoading(false);  // Set loading to false in case of error
+            setLoading(false);
             setSubmitted(false)
             setError("An error occurred. Please try again.");
         } finally {

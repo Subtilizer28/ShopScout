@@ -8,7 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const setMultiCookie = (name, data, days) => {
   const jsonData = JSON.stringify(data);
-  const chunkSize = 3800; // Slightly less than 4 KB to account for encoding and metadata
+  const chunkSize = 3800;
   const chunks = [];
 
   for (let i = 0; i < jsonData.length; i += chunkSize) {
@@ -22,7 +22,6 @@ const setMultiCookie = (name, data, days) => {
       document.cookie = `${name}_${index}=${encodeURIComponent(chunk)}; ${expires}; path=/`;
   });
 
-  // Add metadata for tracking chunks
   document.cookie = `${name}_count=${chunks.length}; path=/`;
 };
 
@@ -54,21 +53,21 @@ function Suggest() {
   const [priceRange, setPriceRange] = useState([0, 300000]);
   const [error, setError] = useState('');
   const [phoneFormData, setPhoneFormData] = useState({
-    brand: [],           // for single-value inputs like brand
+    brand: [],
     minPrice: 'Min',
     maxPrice: 'Max',
-    selectedRams: [],     // for multiple checkboxes (RAM options)
-    selectedStorage: [],   // add similar arrays for other multi-select options if needed
+    selectedRams: [],
+    selectedStorage: [],
     selectedBattery: [],
     selectedScreen: [],
     selectedClock: []
   });
   const [laptopFormData, setLaptopFormData] = useState({
-    brand: [],           // for single-value inputs like brand
+    brand: [],
     minPrice: 'Min',
     maxPrice: 'Max',
-    selectedRams: [],     // for multiple checkboxes (RAM options)
-    selectedSSD: [],   // add similar arrays for other multi-select options if needed
+    selectedRams: [],
+    selectedSSD: [],
     selectedGraphics: [],
     selectedScreen: [],
     selectedGraphicsMemory: [],
@@ -144,7 +143,7 @@ function Suggest() {
           setProducts(fetchedProducts);
         }
       } catch (error) {
-        setLoading(false);  // Set loading to false in case of error
+        setLoading(false);
         setSubmitted(false)
         setError("An error occurred. Please try again.");
       } finally {
@@ -169,7 +168,7 @@ function Suggest() {
           setProducts(fetchedProducts);
         }
       } catch (error) {
-        setLoading(false);  // Set loading to false in case of error
+        setLoading(false);
         setSubmitted(false)
         setError("An error occurred. Please try again.");
       } finally {
@@ -217,7 +216,7 @@ function Suggest() {
                   <CardActionArea sx={{ height: '100%' }}>
                     <CardMedia
                       component="img"
-                      image="/images/phone.png" // Replace with the actual image URL
+                      image="/images/phone.png"
                       alt="Phone"
                       sx={{
                         marginLeft: 'auto',
@@ -259,7 +258,7 @@ function Suggest() {
                   <CardActionArea sx={{ height: '100%' }}>
                     <CardMedia
                       component="img"
-                      image="/images/laptop.png" // Replace with the actual image URL
+                      image="/images/laptop.png"
                       alt="Laptop"
                       sx={{
                         marginLeft: 'auto',
@@ -347,8 +346,8 @@ function Suggest() {
                           <Box
                             sx={{
                               display: 'grid',
-                              gridTemplateColumns: 'repeat(2, 1fr)', // Two columns
-                              gap: 1, // Gap between grid items
+                              gridTemplateColumns: 'repeat(2, 1fr)',
+                              gap: 1,
                             }}
                           >
                             {[
@@ -503,7 +502,7 @@ function Suggest() {
                                     }
                                     label={<Typography variant="body2">{storageOption}</Typography>}
                                     sx={{
-                                      flex: '1 1 45%', // Items take up about half the width
+                                      flex: '1 1 45%',
                                       m: 0,
                                     }}
                                   />
@@ -689,8 +688,8 @@ function Suggest() {
                           <Box
                             sx={{
                               display: 'grid',
-                              gridTemplateColumns: 'repeat(2, 1fr)', // Two columns
-                              gap: 1, // Gap between grid items
+                              gridTemplateColumns: 'repeat(2, 1fr)',
+                              gap: 1,
                             }}
                           >
                             {[
@@ -801,8 +800,8 @@ function Suggest() {
                                   }
                                   label={<Typography color="white" variant="body2">{laptopRamOption}</Typography>}
                                   sx={{
-                                    width: 100, // Each item takes up half the row width
-                                    margin: 0, // Removes extra margin to align neatly
+                                    width: 100,
+                                    margin: 0,
                                   }}
                                 />
                               ))}
@@ -835,8 +834,8 @@ function Suggest() {
                                   }
                                   label={<Typography color="white" variant="body2">{ssdOption}</Typography>}
                                   sx={{
-                                    width: 100, // Each item takes up half the row width
-                                    margin: 0, // Removes extra margin to align neatly
+                                    width: 100,
+                                    margin: 0,
                                   }}
                                 />
                               ))}
@@ -869,8 +868,8 @@ function Suggest() {
                                   }
                                   label={<Typography color="white" variant="body2">{graphicsOption}</Typography>}
                                   sx={{
-                                    width: 100, // Each item takes up half the row width
-                                    margin: 0, // Removes extra margin to align neatly
+                                    width: 100,
+                                    margin: 0,
                                   }}
                                 />
                               ))}
@@ -903,8 +902,8 @@ function Suggest() {
                                   }
                                   label={<Typography color="white" variant="body2">{laptopScreenOption}</Typography>}
                                   sx={{
-                                    width: 100, // Each item takes up half the row width
-                                    margin: 0, // Removes extra margin to align neatly
+                                    width: 100,
+                                    margin: 0,
                                   }}
                                 />
                               ))}
@@ -937,8 +936,8 @@ function Suggest() {
                                   }
                                   label={<Typography color="white" variant="body2">{graphicsMemOption}</Typography>}
                                   sx={{
-                                    width: 100, // Each item takes up half the row width
-                                    margin: 0, // Removes extra margin to align neatly
+                                    width: 100,
+                                    margin: 0,
                                   }}
                                 />
                               ))}
@@ -971,8 +970,8 @@ function Suggest() {
                                   }
                                   label={<Typography color="white" variant="body2">{hddOption}</Typography>}
                                   sx={{
-                                    width: 100, // Each item takes up half the row width
-                                    margin: 0, // Removes extra margin to align neatly
+                                    width: 100,
+                                    margin: 0,
                                   }}
                                 />
                               ))}
@@ -1005,8 +1004,8 @@ function Suggest() {
                                   }
                                   label={<Typography color="white" variant="body2">{processorOption}</Typography>}
                                   sx={{
-                                    width: 100, // Each item takes up half the row width
-                                    margin: 0, // Removes extra margin to align neatly
+                                    width: 100,
+                                    margin: 0,
                                   }}
                                 />
                               ))}
@@ -1046,7 +1045,7 @@ function Suggest() {
 
       {/* Loading Spinner */}
       {loading && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 20, color: "white" }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: "white" }}>
           <CircularProgress sx={{ color: 'white' }} size={60} thickness={5} />
         </Box>
       )}

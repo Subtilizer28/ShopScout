@@ -4,7 +4,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const setMultiCookie = (name, data, days) => {
   const jsonData = JSON.stringify(data);
-  const chunkSize = 3800; // Slightly less than 4 KB to account for encoding and metadata
+  const chunkSize = 3800;
   const chunks = [];
 
   for (let i = 0; i < jsonData.length; i += chunkSize) {
@@ -18,7 +18,6 @@ const setMultiCookie = (name, data, days) => {
     document.cookie = `${name}_${index}=${encodeURIComponent(chunk)}; ${expires}; path=/`;
   });
 
-  // Add metadata for tracking chunks
   document.cookie = `${name}_count=${chunks.length}; path=/`;
 };
 
@@ -74,7 +73,7 @@ const Wishlist = () => {
         display: 'flex',
         flexWrap: 'wrap',
         gap: 2,
-        flexDirection: { xs: 'column', sm: 'row' }, // Column for mobile, row for larger screens
+        flexDirection: { xs: 'column', sm: 'row' },
         padding: 2,
         height: 'auto',
         marginLeft: 10,
