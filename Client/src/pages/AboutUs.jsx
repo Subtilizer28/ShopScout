@@ -70,7 +70,7 @@ function About() {
                     <Card
                         key={index}
                         sx={{
-                            width: '270px',
+                            width: {md: '300px', xs: '230px'},
                             height: '350px',
                             textAlign: 'center',
                             borderRadius: 2,
