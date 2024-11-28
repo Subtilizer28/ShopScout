@@ -217,8 +217,16 @@ function Compare() {
             )}
 
             {/* Show loading spinner while fetching data */}
-            {loading && <CircularProgress style={{ color: 'white', justifyContent: 'center', alignItems: 'center' }} size={60} thickness={5} />}
-
+            {loading && 
+                <Box sx={{
+                    display: 'flex',
+                    height: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <CircularProgress sx={{ color: 'white' }} size={60} thickness={5} />
+                </Box>            
+            }
             {/* Show Table if comparison data is available */}
             {comparisonData && (
                 <Box
