@@ -8,7 +8,7 @@ function About() {
     const people = [
         {
             name: 'Arlin Riya Dsouza',
-            role: 'Frontend Developer',
+            role: 'Backend Developer',
             image: '/images/arlin.jpg',
             memeLine: '"It is what it is 🙂."',
             linkedin: 'https://www.linkedin.com/in/arlin-riya-dsouza-268b42320/',
@@ -26,7 +26,7 @@ function About() {
         },
         {
             name: 'Aman Marian Cutinha',
-            role: 'Backend Developer',
+            role: 'Frontend Developer',
             image: '/images/aman.jpg',
             memeLine: '"Just a Chill Guy 🙂‍↕️."',
             linkedin: 'https://www.linkedin.com/in/aman-cutinha-b75588288/',
