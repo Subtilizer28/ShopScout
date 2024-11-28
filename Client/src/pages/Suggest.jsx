@@ -194,10 +194,10 @@ function Suggest() {
       {/* Specification Selection Section - Hidden when form is submitted */}
       {!submitted && (
         <Fade in={!submitted}>
-          <Box sx={{ textAlign: 'center', height: '100%', marginBottom: 4, width: '100%', maxWidth: '800px'}}>
+          <Box sx={{ textAlign: 'center', height: '100%', width: '100%', maxWidth: '800px'}}>
             {/* Device Type Selection */}
             {!deviceType && (
-              <Box sx={{ display: 'flex', height: '100%', justifyContent: 'center', alignItems: 'center', gap: 4, flexDirection: { md: 'row', xs: 'column' } }}>
+              <Box sx={{ display: 'flex', gap: 3, height: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: { md: 'row', xs: 'column' } }}>
                 <Card
                   onClick={() => handleDeviceTypeSelect('Phone')}
                   sx={{

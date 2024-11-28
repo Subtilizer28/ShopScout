@@ -15,7 +15,8 @@ import Suggest from './pages/Suggest'
 import Compare from './pages/Compare'
 import Wishlist from './pages/Wishlist'
 import PriceHistory from './pages/PriceHistory'
-const pages = ['Home', 'Suggest', 'Compare', 'Wishlist', 'Price History'];
+import About from './pages/AboutUs'
+const pages = ['Home', 'Suggest', 'Compare', 'Wishlist', 'Price History', 'About Us'];
 
 function Index() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -56,6 +57,7 @@ function Index() {
             case 'Compare': return <Compare />;
             case 'Wishlist': return <Wishlist />;
             case 'Price History': return <PriceHistory />;
+            case 'About Us': return <About />
         }
     }
     return (
@@ -157,7 +159,7 @@ function Index() {
                             flexGrow: 1,
                             fontFamily: 'monospace',
                             fontWeight: 700,
-                            letterSpacing: '.3rem',
+                            letterSpacing: '.1rem',
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
@@ -166,13 +168,13 @@ function Index() {
                     </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={() => handleCloseNavMenu(page)}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
+                                <Button
+                                    key={page}
+                                    onClick={() => handleCloseNavMenu(page)}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page}
+                                </Button>
                             ))}
                         </Box>
                     </Toolbar>
