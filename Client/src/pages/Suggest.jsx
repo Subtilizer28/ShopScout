@@ -197,91 +197,93 @@ function Suggest() {
           <Box sx={{ textAlign: 'center', height: '100%', width: '100%', maxWidth: '800px'}}>
             {/* Device Type Selection */}
             {!deviceType && (
-              <Box sx={{ display: 'flex', gap: 3, height: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: { md: 'row', xs: 'column' } }}>
-                <Card
-                  onClick={() => handleDeviceTypeSelect('Phone')}
-                  sx={{
-                    width: 200,
-                    height: 250,
-                    borderRadius: '16px',
-                    boxShadow: '0px 4px 20px rgba(0,0,0,0.1)',
-                    backgroundColor: 'rgba(0,0,0,0.1)',
-                    transition: 'transform 0.3s, box-shadow 0.3s',
-                    '&:hover': {
-                      transform: 'scale(1.1)',
-                      boxShadow: '0px 6px 25px rgba(0,0,0,0.2)',
-                    },
-                  }}
-                >
-                  <CardActionArea sx={{ height: '100%' }}>
-                    <CardMedia
-                      component="img"
-                      image="/images/phone.png"
-                      alt="Phone"
-                      sx={{
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        height: '160px',
-                        width: '160px',
-                        objectFit: 'contain',
-                        marginBottom: 2,
-                      }}
-                    />
-                    <CardContent>
-                      <Typography
-                        variant="h6"
-                        align="center"
-                        color="white"
-                        fontWeight="bold"
-                      >
-                        Phone
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
+              <Fade in={true} timeout={1000}>
+                <Box sx={{ display: 'flex', gap: 3, height: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: { md: 'row', xs: 'column' } }}>
+                  <Card
+                    onClick={() => handleDeviceTypeSelect('Phone')}
+                    sx={{
+                      width: 200,
+                      height: 250,
+                      borderRadius: '16px',
+                      boxShadow: '0px 4px 20px rgba(0,0,0,0.1)',
+                      backgroundColor: 'rgba(0,0,0,0.1)',
+                      transition: 'transform 0.3s, box-shadow 0.3s',
+                      '&:hover': {
+                        transform: 'scale(1.1)',
+                        boxShadow: '0px 6px 25px rgba(0,0,0,0.2)',
+                      },
+                    }}
+                  >
+                    <CardActionArea sx={{ height: '100%' }}>
+                      <CardMedia
+                        component="img"
+                        image="/images/phone.png"
+                        alt="Phone"
+                        sx={{
+                          marginLeft: 'auto',
+                          marginRight: 'auto',
+                          height: '160px',
+                          width: '160px',
+                          objectFit: 'contain',
+                          marginBottom: 2,
+                        }}
+                      />
+                      <CardContent>
+                        <Typography
+                          variant="h6"
+                          align="center"
+                          color="white"
+                          fontWeight="bold"
+                        >
+                          Phone
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
 
-                <Card
-                  onClick={() => handleDeviceTypeSelect('Laptop')}
-                  sx={{
-                    width: 200,
-                    height: 250,
-                    borderRadius: '16px',
-                    boxShadow: '0px 4px 20px rgba(0,0,0,0.1)',
-                    backgroundColor: 'rgba(0,0,0,0.1)',
-                    transition: 'transform 0.3s, box-shadow 0.3s',
-                    '&:hover': {
-                      transform: 'scale(1.1)',
-                      boxShadow: '0px 6px 25px rgba(0,0,0,0.2)',
-                    },
-                  }}
-                >
-                  <CardActionArea sx={{ height: '100%' }}>
-                    <CardMedia
-                      component="img"
-                      image="/images/laptop.png"
-                      alt="Laptop"
-                      sx={{
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        height: '160px',
-                        width: '160px',
-                        objectFit: 'contain',
-                        marginBottom: 2,
-                      }}
-                    />
-                    <CardContent>
-                      <Typography
-                        variant="h6"
-                        align="center"
-                        color="white"
-                        fontWeight="bold"
-                      >
-                        Laptop
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Box>
+                  <Card
+                    onClick={() => handleDeviceTypeSelect('Laptop')}
+                    sx={{
+                      width: 200,
+                      height: 250,
+                      borderRadius: '16px',
+                      boxShadow: '0px 4px 20px rgba(0,0,0,0.1)',
+                      backgroundColor: 'rgba(0,0,0,0.1)',
+                      transition: 'transform 0.3s, box-shadow 0.3s',
+                      '&:hover': {
+                        transform: 'scale(1.1)',
+                        boxShadow: '0px 6px 25px rgba(0,0,0,0.2)',
+                      },
+                    }}
+                  >
+                    <CardActionArea sx={{ height: '100%' }}>
+                      <CardMedia
+                        component="img"
+                        image="/images/laptop.png"
+                        alt="Laptop"
+                        sx={{
+                          marginLeft: 'auto',
+                          marginRight: 'auto',
+                          height: '160px',
+                          width: '160px',
+                          objectFit: 'contain',
+                          marginBottom: 2,
+                        }}
+                      />
+                      <CardContent>
+                        <Typography
+                          variant="h6"
+                          align="center"
+                          color="white"
+                          fontWeight="bold"
+                        >
+                          Laptop
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Box>
+              </Fade>
             )}
 
             {showInputs && (
@@ -1052,51 +1054,82 @@ function Suggest() {
 
       {/* Product Cards Section */}
       {!loading && products.length > 0 && (
-        <Fade in={!loading}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, flexWrap: 'wrap', height: '100%', marginTop: 1 }}>
+        <Fade in={true} timeout={1000}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 3, // Consistent spacing between cards
+              flexWrap: 'wrap',
+              padding: 2,
+              height: '100%',
+              width: '100%',
+              marginX: { xs: 1, sm: 2, md: 5}, // Add margins for larger screens
+            }}
+          >
             {products.map((product, index) => (
-              <Box key={index} sx={{ minWidth: '300px', flexBasis: '30%', textAlign: 'center' }}>
-                <Card sx={{ backgroundColor: 'transparent', borderRadius: "25px", boxShadow: 5, minHeight: 380 }}>
-                  <CardContent>
-                    <Box sx={{
-                      width: 150,
-                      height: 200,
-                      background: 'black',
-                      marginLeft: 'auto',
-                      marginRight: 'auto',
-                      borderRadius: 5 
-                    }}>
-                      <img src={product.image} width={150} height={200} style={{ borderRadius: 16 }} />
-                    </Box>
-                    <Typography sx={{ marginTop: 1 }} variant="h5" color="white" gutterBottom>
-                      {product.name}
-                    </Typography>
-                    <Typography variant="body2" color="white">
-                      {product.description}
-                    </Typography>
-                    <Typography sx={{ marginTop: 1 }} variant="h5" color="white">
-                      {product.price}
-                    </Typography>
-                    {/* Link Chips */}
+              <Card
+                key={index}
+                sx={{
+                  width: { xs: '80%', sm: '45%', md: '20%' }, 
+                  height: 450,
+                  borderRadius: '16px',
+                  boxShadow: 4,
+                  backgroundColor: 'rgba(0, 0, 0, 0.1)', 
+                  color: 'white',
+                  margin: 1
+                }}
+              >
+                {/* Product Image */}
+                <CardMedia
+                  component="img"
+                  image={product.image}
+                  alt={product.name}
+                  sx={{
+                    height: 200,
+                    width: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '16px 16px 0 0',
+                  }}
+                />
+
+                {/* Product Content */}
+                <CardContent sx={{ textAlign: 'center' }}>
+                  <Typography variant="h5" gutterBottom>
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body2" gutterBottom>
+                    {product.description}
+                  </Typography>
+                  <Typography variant="h6" sx={{ marginTop: 1 }}>
+                    {product.price}
+                  </Typography>
+
+                  {/* Links and Wishlist */}
+                  <Box sx={{ marginTop: 1 }}>
+                    <Chip
+                      label="Flipkart"
+                      component="a"
+                      href={product.flipkartLink}
+                      target="_blank"
+                      clickable
+                      color="primary"
+                    />
                     <Box sx={{ marginTop: 1 }}>
-                      <Chip
-                        label="Flipkart"
-                        component="a"
-                        href={product.flipkartLink}
-                        target="_blank"
-                        clickable
-                        color="primary"
-                      />
-                      <br />
                       <FavoriteIcon
                         onClick={() => toggleWishlist(product.name, product.image, product.flipkartLink)}
-                        color={getMultiCookie('wishlist')?.some(item => item.link === product.flipkartLink) ? 'error' : 'disabled'}
-                        sx={{ cursor: 'pointer', marginTop: 1, marginLeft: 'auto', marginRight: 'auto' }}
+                        color={
+                          getMultiCookie('wishlist')?.some(item => item.link === product.flipkartLink)
+                            ? 'error'
+                            : 'disabled'
+                        }
+                        sx={{ cursor: 'pointer' }}
                       />
                     </Box>
-                  </CardContent>
-                </Card>
-              </Box>
+                  </Box>
+                </CardContent>
+              </Card>
             ))}
           </Box>
         </Fade>

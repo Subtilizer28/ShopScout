@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardActionArea, Typography, Chip, Box } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Chip, Box, Fade } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const setMultiCookie = (name, data, days) => {
@@ -68,97 +68,116 @@ const Wishlist = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: 2,
-        flexDirection: { xs: 'column', sm: 'row' },
-        padding: 2,
-        height: 'auto',
-        marginLeft: 10,
-        marginRight: 10
-      }}
-    >
-      {wishlistEmpty ? (
+    <>
+    {wishlistEmpty ? (
+      <Fade in={true} timeout={1000}>
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
+            height: '100%',
             textAlign: 'center',
           }}
         >
-          <Box
-            sx={{
-              color: '#fff',
-              fontWeight: 'bold',
-              fontSize: '2.5rem',
-            }}
-          >
-            Wishlist is empty. Add some Products!!
-          </Box>
+          <Typography sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: '100%',
+            color: 'white',
+            mb: 3,
+            fontSize: '2.2rem',
+            fontWeight: 'bold',
+          }}>
+            Wishlist is empty. Add some products!!
+          </Typography>
         </Box>
-      ) : (
-        wishlist.map((item, index) => (
-          <Card
-            key={index}
-            sx={{
-              width: { xs: '100%', sm: 200 },
-              height: 280,
-              borderRadius: "25px",
-              boxShadow: 5,
-              color: 'white',
-              backgroundColor: 'transparent',
-            }}
-          >
-            <CardActionArea href={item.link} sx={{ height: '100%' }}>
-              <Box
+      </Fade>
+    ) : (
+      <Fade in={true} timeout={1000}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 2,
+            flexDirection: { xs: 'column', sm: 'row' },
+            margin: 2,
+            height: 'auto',
+            marginLeft: {md: 10, xs: 2},
+            marginRight: {md: 10, xs: 2}
+          }}
+        >
+          {wishlist.map((item, index) => (
+            <Card
+              key={index}
+              sx={{
+                width: { xs: '85%', sm: '45%', md: '15%' }, 
+                height: 300,
+                borderRadius: '16px',
+                boxShadow: 4,
+                backgroundColor: 'rgba(0, 0, 0, 0.1)', 
+                color: 'white',
+                margin: 1
+              }}
+            >
+              {/* Product Image */}
+              <CardMedia
                 component="img"
-                src={item.image}
-                alt={item.title}
+                image={item.image}
+                alt={item.name}
                 sx={{
-                  height: 140,
+                  height: 150,
                   width: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '16px 16px 0 0',
                 }}
               />
-              <CardContent>
+
+              {/* Product Content */}
+              <CardContent sx={{ textAlign: 'center' }}>
                 <Typography variant="h6" noWrap>
                   {item.title.length > 40 ? `${item.title.slice(0, 40)}...` : item.title}
                 </Typography>
+
+                {/* Links and Wishlist */}
+                <Box sx={{ marginTop: 1 }}>
                 <Chip
-                  label="View Product"
-                  component="a"
-                  href={item.link}
-                  clickable
-                  sx={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                    color: 'white',
-                    marginTop: 1,
-                    padding: '2px 10px',
-                  }}
-                />
-                <FavoriteIcon
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleWishlist(item.title, item.image, item.link);
-                  }}
-                  color={getMultiCookie('wishlist')?.some((it) => it.link === item.link) ? 'error' : 'disabled'}
-                  sx={{
-                    cursor: 'pointer',
-                    marginTop: 1,
-                    display: 'block',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                  }}
-                />
+                    label="View Product"
+                    component="a"
+                    href={item.link}
+                    clickable
+                    sx={{
+                      backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                      color: 'white',
+                      marginTop: 1,
+                      padding: '2px 10px',
+                    }}
+                  />
+                  <FavoriteIcon
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleWishlist(item.title, item.image, item.link);
+                    }}
+                    color={getMultiCookie('wishlist')?.some((it) => it.link === item.link) ? 'error' : 'disabled'}
+                    sx={{
+                      cursor: 'pointer',
+                      marginTop: 1,
+                      display: 'block',
+                      marginLeft: 'auto',
+                      marginRight: 'auto',
+                    }}
+                  />
+                </Box>
               </CardContent>
-            </CardActionArea>
-          </Card>
-        ))
+            </Card>
+          ))}
+        </Box>
+      </Fade>
       )}
-    </Box>
+    </>
   );
 };
 

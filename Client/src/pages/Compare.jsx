@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Table, TableHead, TableCell, TableRow, TableBody, CircularProgress, TextField, Button, Chip, Box } from '@mui/material';
+import { Table, TableHead, TableCell, TableRow, TableBody, CircularProgress, TextField, Button, Chip, Box, Fade } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const setMultiCookie = (name, data, days) => {
@@ -103,249 +103,253 @@ function Compare() {
     };
 
     return (
-        <div style={{ textAlign: 'center', height: '100%' }}>
-        {/* Show form if not loading or there is an error */}
-            {!loading && !comparisonData && (
-                <form onSubmit={handleSubmit} style={{ margin: 'auto', maxWidth: '90%', height: '100%' }}>
-                <Box sx={{
-                    display: 'flex',
-                    height: '100%',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-                    {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
-                    <TextField
-                        type="text"
-                        label="1st Link"
-                        value={link1}
-                        onChange={(e) => setLink1(e.target.value)}
-                        placeholder="Enter first product link"
-                        variant="outlined"
-                        sx={{
-                            width: {md: '60%', xs: '90%'},
-                            input: {
-                                color: 'white',
-                                fontWeight: 'bold',
-                                backgroundColor: 'transparent',
-                            },
-                            '& .MuiOutlinedInput-root': {
-                                '& fieldset': {
-                                borderColor: 'white',
-                                borderWidth: '0.125rem',
-                                },
-                                '&:hover fieldset': {
-                                borderColor: 'white',
-                                },
-                                '&.Mui-focused fieldset': {
-                                borderColor: 'white',
-                                },
-                            },
-                            label: {
-                                color: 'white',
-                                fontWeight: 'bold',
-                            },
-                            '& .MuiInputLabel-root': {
-                                color: 'white',
-                            },
-                            '& .MuiInputLabel-root.Mui-focused': {
-                                color: 'white',
-                            },
-                        }}
-                        required
-                    />
-                    <br />
-                    <TextField
-                        type="text"
-                        label="2nd Link"
-                        value={link2}
-                        onChange={(e) => setLink2(e.target.value)}
-                        placeholder="Enter second product link"
-                        variant="outlined"
-                        sx={{
-                            width: {md: '60%', xs: '90%'},
-                            input: {
-                                color: 'white',
-                                fontWeight: 'bold',
-                                backgroundColor: 'transparent',
-                            },
-                            '& .MuiOutlinedInput-root': {
-                                '& fieldset': {
-                                borderColor: 'white',
-                                borderWidth: '0.125rem',
-                                },
-                                '&:hover fieldset': {
-                                borderColor: 'white',
-                                },
-                                '&.Mui-focused fieldset': {
-                                borderColor: 'white',
-                                },
-                            },
-                            label: {
-                                color: 'white',
-                                fontWeight: 'bold',
-                            },
-                            '& .MuiInputLabel-root': {
-                                color: 'white',
-                            },
-                            '& .MuiInputLabel-root.Mui-focused': {
-                                color: 'white',
-                            },
-                        }}
-                        required
-                    />
-                    <br />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        sx={{
-                            backgroundColor: 'rgba(0,0,0,0.1)',
-                            color: 'white',
-                            height: '3rem',
-                            width: '10rem',
-                            borderRadius: '1.25rem',
-                            padding: '0.625rem 1.875rem',
-                            fontWeight: 'bold',
-                            fontSize: '1rem',
-                        }}
-                    >
-                        Compare
-                    </Button>
-                </Box>
-                </form>
-            )}
-
-            {/* Show loading spinner while fetching data */}
-            {loading && 
-                <Box sx={{
-                    display: 'flex',
-                    height: '100%',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <CircularProgress sx={{ color: 'white' }} size={60} thickness={5} />
-                </Box>            
-            }
-            {/* Show Table if comparison data is available */}
-            {comparisonData && (
-                <Box
-                    sx={{
+        <Fade in={true} timeout={1000}>
+            <div style={{ textAlign: 'center', height: '100%' }}>
+            {/* Show form if not loading or there is an error */}
+                {!loading && !comparisonData && (
+                    <form onSubmit={handleSubmit} style={{ margin: 'auto', maxWidth: '90%', height: '100%' }}>
+                    <Box sx={{
                         display: 'flex',
-                        justifyContent: 'center',
+                        height: '100%',
+                        flexDirection: 'column',
                         alignItems: 'center',
-                        padding: { xs: '0 1rem', md: '0' },
-                    }}
-                >
-                    <Table
-                        sx={{
-                            width: { xs: '100%', md: '90%' },
-                            backgroundColor: 'transparent',
-                            borderCollapse: 'collapse',
-                            textAlign: 'center',
-                            border: '0.3125rem solid white',
-                            borderRadius: '0.625rem',
-                            fontWeight: 'bold',
-                            marginTop: '2rem',
-                        }}
-                    >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                                    Feature
-                                </TableCell>
-                                <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                                    Product 1
-                                </TableCell>
-                                <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                                    Product 2
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {comparisonData.map((row, index) => (
-                                <TableRow key={index}>
-                                    <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.75rem', md: '1rem' } }}>
-                                        {index === 1 ? <span>Product Image</span> : row[0]}
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.75rem', md: '1rem' } }}>
-                                        {index === 1 ? (
-                                            <img
-                                                src={row[1]}
-                                                style={{
-                                                    width: '100%',
-                                                    maxWidth: '10rem',
-                                                    borderRadius: '1rem',
-                                                }}
+                        justifyContent: 'center',
+                    }}>
+                        {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
+                        <TextField
+                            type="text"
+                            label="1st Link"
+                            value={link1}
+                            onChange={(e) => setLink1(e.target.value)}
+                            placeholder="Enter first product link"
+                            variant="outlined"
+                            sx={{
+                                width: {md: '60%', xs: '90%'},
+                                input: {
+                                    color: 'white',
+                                    fontWeight: 'bold',
+                                    backgroundColor: 'transparent',
+                                },
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                    borderColor: 'white',
+                                    borderWidth: '0.125rem',
+                                    },
+                                    '&:hover fieldset': {
+                                    borderColor: 'white',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                    borderColor: 'white',
+                                    },
+                                },
+                                label: {
+                                    color: 'white',
+                                    fontWeight: 'bold',
+                                },
+                                '& .MuiInputLabel-root': {
+                                    color: 'white',
+                                },
+                                '& .MuiInputLabel-root.Mui-focused': {
+                                    color: 'white',
+                                },
+                            }}
+                            required
+                        />
+                        <br />
+                        <TextField
+                            type="text"
+                            label="2nd Link"
+                            value={link2}
+                            onChange={(e) => setLink2(e.target.value)}
+                            placeholder="Enter second product link"
+                            variant="outlined"
+                            sx={{
+                                width: {md: '60%', xs: '90%'},
+                                input: {
+                                    color: 'white',
+                                    fontWeight: 'bold',
+                                    backgroundColor: 'transparent',
+                                },
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                    borderColor: 'white',
+                                    borderWidth: '0.125rem',
+                                    },
+                                    '&:hover fieldset': {
+                                    borderColor: 'white',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                    borderColor: 'white',
+                                    },
+                                },
+                                label: {
+                                    color: 'white',
+                                    fontWeight: 'bold',
+                                },
+                                '& .MuiInputLabel-root': {
+                                    color: 'white',
+                                },
+                                '& .MuiInputLabel-root.Mui-focused': {
+                                    color: 'white',
+                                },
+                            }}
+                            required
+                        />
+                        <br />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            sx={{
+                                backgroundColor: 'rgba(0,0,0,0.1)',
+                                color: 'white',
+                                height: '3rem',
+                                width: '10rem',
+                                borderRadius: '1.25rem',
+                                padding: '0.625rem 1.875rem',
+                                fontWeight: 'bold',
+                                fontSize: '1rem',
+                            }}
+                        >
+                            Compare
+                        </Button>
+                    </Box>
+                    </form>
+                )}
+
+                {/* Show loading spinner while fetching data */}
+                {loading && 
+                    <Box sx={{
+                        display: 'flex',
+                        height: '100%',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <CircularProgress sx={{ color: 'white' }} size={60} thickness={5} />
+                    </Box>            
+                }
+                {/* Show Table if comparison data is available */}
+                {comparisonData && (
+                    <Fade in={true} timeout={1000}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                padding: { xs: '0 1rem', md: '0' },
+                            }}
+                        >
+                            <Table
+                                sx={{
+                                    width: { xs: '100%', md: '90%' },
+                                    backgroundColor: 'transparent',
+                                    borderCollapse: 'collapse',
+                                    textAlign: 'center',
+                                    border: '0.3125rem solid white',
+                                    borderRadius: '0.625rem',
+                                    fontWeight: 'bold',
+                                    marginTop: '2rem',
+                                }}
+                            >
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.875rem', md: '1rem' } }}>
+                                            Feature
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.875rem', md: '1rem' } }}>
+                                            Product 1
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.875rem', md: '1rem' } }}>
+                                            Product 2
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {comparisonData.map((row, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.75rem', md: '1rem' } }}>
+                                                {index === 1 ? <span>Product Image</span> : row[0]}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.75rem', md: '1rem' } }}>
+                                                {index === 1 ? (
+                                                    <img
+                                                        src={row[1]}
+                                                        style={{
+                                                            width: '100%',
+                                                            maxWidth: '10rem',
+                                                            borderRadius: '1rem',
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    row[1]
+                                                )}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.75rem', md: '1rem' } }}>
+                                                {index === 1 ? (
+                                                    <img
+                                                        src={row[2]}
+                                                        style={{
+                                                            width: '100%',
+                                                            maxWidth: '10rem',
+                                                            borderRadius: '1rem',
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    row[2]
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                    <TableRow>
+                                        <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.75rem', md: '1rem' } }}>
+                                            Tools
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ color: 'white' }}>
+                                            <Chip
+                                                label="Product Link"
+                                                component="a"
+                                                href={link1}
+                                                target="_blank"
+                                                clickable
+                                                color="primary"
+                                                sx={{ margin: '0.5rem 0', fontSize: { xs: '0.75rem', md: '1rem' } }}
                                             />
-                                        ) : (
-                                            row[1]
-                                        )}
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.75rem', md: '1rem' } }}>
-                                        {index === 1 ? (
-                                            <img
-                                                src={row[2]}
-                                                style={{
-                                                    width: '100%',
-                                                    maxWidth: '10rem',
-                                                    borderRadius: '1rem',
-                                                }}
+                                            <br />
+                                            <FavoriteIcon
+                                                onClick={() => toggleWishlist(title1, img1, link1)}
+                                                color={
+                                                    getMultiCookie('wishlist')?.some(item => item.link === link1) ? 'error' : 'disabled'
+                                                }
+                                                sx={{ cursor: 'pointer', marginTop: '0.5rem', fontSize: { xs: '1.5rem', md: '2rem' } }}
                                             />
-                                        ) : (
-                                            row[2]
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                            <TableRow>
-                                <TableCell align="center" sx={{ color: 'white', fontSize: { xs: '0.75rem', md: '1rem' } }}>
-                                    Tools
-                                </TableCell>
-                                <TableCell align="center" sx={{ color: 'white' }}>
-                                    <Chip
-                                        label="Product Link"
-                                        component="a"
-                                        href={link1}
-                                        target="_blank"
-                                        clickable
-                                        color="primary"
-                                        sx={{ margin: '0.5rem 0', fontSize: { xs: '0.75rem', md: '1rem' } }}
-                                    />
-                                    <br />
-                                    <FavoriteIcon
-                                        onClick={() => toggleWishlist(title1, img1, link1)}
-                                        color={
-                                            getMultiCookie('wishlist')?.some(item => item.link === link1) ? 'error' : 'disabled'
-                                        }
-                                        sx={{ cursor: 'pointer', marginTop: '0.5rem', fontSize: { xs: '1.5rem', md: '2rem' } }}
-                                    />
-                                </TableCell>
-                                <TableCell align="center" sx={{ color: 'white' }}>
-                                    <Chip
-                                        label="Product Link"
-                                        component="a"
-                                        href={link2}
-                                        target="_blank"
-                                        clickable
-                                        color="primary"
-                                        sx={{ margin: '0.5rem 0', fontSize: { xs: '0.75rem', md: '1rem' } }}
-                                    />
-                                    <br />
-                                    <FavoriteIcon
-                                        onClick={() => toggleWishlist(title2, img2, link2)}
-                                        color={
-                                            getMultiCookie('wishlist')?.some(item => item.link === link2) ? 'error' : 'disabled'
-                                        }
-                                        sx={{ cursor: 'pointer', marginTop: '0.5rem', fontSize: { xs: '1.5rem', md: '2rem' } }}
-                                    />
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </Box>
-            )}
-        </div>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ color: 'white' }}>
+                                            <Chip
+                                                label="Product Link"
+                                                component="a"
+                                                href={link2}
+                                                target="_blank"
+                                                clickable
+                                                color="primary"
+                                                sx={{ margin: '0.5rem 0', fontSize: { xs: '0.75rem', md: '1rem' } }}
+                                            />
+                                            <br />
+                                            <FavoriteIcon
+                                                onClick={() => toggleWishlist(title2, img2, link2)}
+                                                color={
+                                                    getMultiCookie('wishlist')?.some(item => item.link === link2) ? 'error' : 'disabled'
+                                                }
+                                                sx={{ cursor: 'pointer', marginTop: '0.5rem', fontSize: { xs: '1.5rem', md: '2rem' } }}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Box>
+                    </Fade>
+                )}
+            </div>
+        </Fade>        
     );
 }
 
